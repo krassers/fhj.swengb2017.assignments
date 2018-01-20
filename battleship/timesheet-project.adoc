@@ -58,10 +58,22 @@
 | 2.5
 | Tried to display battlefields correctly
 
+| malichri16
+| 18.01.2018
+| -
+| 2.5
+| extended BattleshipAppFx (has now the complete game state)
+
 | krassers16
 | 20.01.2018
 | -
 | 3
 | Playernames are displayed in headline, Current player changes if save-button is pressed, Battlefields are now displayed correctly (fixed load bug)
+
+| malichri16
+| 20.01.2018
+| -
+| 6
+| finished NewGameController- EditModeController - add/remove of vessels - model classes extended
 
 |===
