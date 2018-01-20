@@ -37,6 +37,7 @@ class BattleShipFxNewGame extends Initializable {
 
  private var filename: String = _
 
+
  //def appendLog(message: String): Unit = log.appendText(message + "\n")
 
  override def initialize(location: URL, resources: ResourceBundle): Unit = initGame
@@ -69,9 +70,9 @@ class BattleShipFxNewGame extends Initializable {
 
    val field = BattleField(10, 10, Fleet(FleetConfig.EmptyFleet))
 
-   val battlefield: BattleField = BattleField.placeRandomly(field)
-   val gameA = BattleShipGame(battlefield, (x: Int) => x.toDouble, (x: Int) => x.toDouble, x => (), player1)
-   val gameB = BattleShipGame(battlefield, (x: Int) => x.toDouble, (x: Int) => x.toDouble, x => (), player2)
+   //val battlefield: BattleField = BattleField.placeRandomly(field)
+   val gameA = BattleShipGame(field, (x: Int) => x.toDouble, (x: Int) => x.toDouble, x => (), player1)
+   val gameB = BattleShipGame(field, (x: Int) => x.toDouble, (x: Int) => x.toDouble, x => (), player2)
 
     game = GameRound(player1, player2, name, x => (), gameA, gameB)
     game.setCurrentPlayer(player1)
@@ -85,7 +86,7 @@ class BattleShipFxNewGame extends Initializable {
    filename = day + "_" + name + "_" + player1 +"_" +player2+".bin"
    //filename = filename.replace(' ','%')
    BattleShipFxApp.setGameRound(game)
-   BattleShipFxApp.setFilename(filename)
+   BattleShipFxApp.setFilename("battleship/" + filename)
    println("filename for new: " + filename)
    BattleShipFxApp.saveGameState("battleship/" + filename)
    BattleShipFxApp.loadFxmlEditMode()
