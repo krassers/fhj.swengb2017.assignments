@@ -7,7 +7,7 @@ import javafx.stage.Stage
 
 import scala.util.{Failure, Success, Try}
 import java.io.IOException
-import java.nio.file.{Files, Paths}
+import java.nio.file.{Files, Paths, StandardOpenOption}
 import java.util.Calendar
 import javafx.scene.control.ProgressBar
 import javafx.scene.image.ImageView
@@ -104,6 +104,7 @@ object BattleShipFxApp {
   }
 
   def loadFxmlEditMode(): Unit = {
+
     editGame = load("/at/fhj/swengb/apps/battleship/jfx/edit_screen.fxml")
   }
   def loadFxmlGameMode(): Unit = {
@@ -176,6 +177,7 @@ object BattleShipFxApp {
       x=>(),
       convert(reload).battleShipGameA,
       convert(reload).battleShipGameB)
+
 
     gameWithOldValues.battleShipGameA.gameState = convert(reload).battleShipGameA.gameState
     gameWithOldValues.battleShipGameB.gameState = convert(reload).battleShipGameB.gameState

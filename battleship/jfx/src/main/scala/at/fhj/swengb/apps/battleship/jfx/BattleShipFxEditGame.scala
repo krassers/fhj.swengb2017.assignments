@@ -36,6 +36,7 @@ class BattleShipFxEditGame extends Initializable {
   var playerGame: BattleShipGame = _
   var filename: String = _
   var dir: Direction = _
+  var numberPlayers: Int = _
 
   var checksum: Int = _
 
@@ -54,6 +55,7 @@ class BattleShipFxEditGame extends Initializable {
       println("DEBUG: now we can load/edit it because we have a game")
       game = BattleShipFxApp.getGameRound()
       filename = BattleShipFxApp.getFilename()
+      numberPlayers = game.getNumberCurrentPlayers()
       loadGameRoundForPlayer()
 
     }
@@ -90,6 +92,8 @@ class BattleShipFxEditGame extends Initializable {
       BattleShipFxApp.setGameRound(game)
       BattleShipFxApp.setFilename(filename)
       BattleShipFxApp.saveGameState(filename)
+      println("createGame ---------- "++ numberPlayers.toString)
+      game.setNumberCurrentPlayers(numberPlayers)
       BattleShipFxApp.loadFxmlGameMode()
       BattleShipFxApp.display(BattleShipFxApp.loadGame, BattleShipFxApp.loadMain)
     }else {
@@ -177,7 +181,7 @@ class BattleShipFxEditGame extends Initializable {
         }
         else{
           println("DEBUG: add new " + v.name + " at:" + pos.x + "/" + pos.y + " dir:" + actAligment.getText + " len:" +len)
-          var newfield = playerGame.battleField.addAtPosition(v, pos)
+          var newfield = playerGame.battleField.addAtPosition(v,pos)
 
           // check if there are changes
           if(newfield != playerGame.battleField){
