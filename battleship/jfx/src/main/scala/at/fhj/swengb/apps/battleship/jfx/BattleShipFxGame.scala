@@ -79,19 +79,34 @@ class BattleShipFxGame extends Initializable {
     BattleShipFxApp.setGameRound(game.copy(battleShipGameA = newBsGameA, battleShipGameB = newBsGameB))
     gameRound = BattleShipFxApp.getGameRound()
 
-    ownGridPane.getChildren.clear()
-    for (c <- newBsGameA.getCells) {
-      ownGridPane.add(c, c.pos.x, c.pos.y)
+    if(game.getNumberCurrentPlayers() == 1) {
+      ownGridPane.getChildren.clear()
+      for (c <- newBsGameA.getCells) {
+        ownGridPane.add(c, c.pos.x, c.pos.y)
+      }
+      newBsGameA.getCells().foreach(c => c.init)
+
+
+      enemyGridPane.getChildren.clear()
+      for (c <- newBsGameB.getCells) {
+        enemyGridPane.add(c, c.pos.x, c.pos.y)
+      }
+      newBsGameB.getCells().foreach(c => c.init)
     }
-    newBsGameA.getCells().foreach(c => c.init)
+    else if(game.getNumberCurrentPlayers() == 2) {
+      ownGridPane.getChildren.clear()
+      for (c <- newBsGameB.getCells) {
+        ownGridPane.add(c, c.pos.x, c.pos.y)
+      }
+      newBsGameB.getCells().foreach(c => c.init)
 
 
-    enemyGridPane.getChildren.clear()
-    for (c <- newBsGameB.getCells) {
-      enemyGridPane.add(c, c.pos.x, c.pos.y)
-    }
-    newBsGameB.getCells().foreach(c => c.init)
-
+      enemyGridPane.getChildren.clear()
+      for (c <- newBsGameA.getCells) {
+        enemyGridPane.add(c, c.pos.x, c.pos.y)
+      }
+      newBsGameA.getCells().foreach(c => c.init)
+      }
   }
 
   def initAfterReload(game: GameRound): Unit = {

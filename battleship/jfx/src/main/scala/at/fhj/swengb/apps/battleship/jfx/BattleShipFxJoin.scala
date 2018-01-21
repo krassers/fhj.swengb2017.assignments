@@ -21,6 +21,7 @@ class BattleShipFxJoin extends Initializable {
  @FXML var gamesToJoin: ListView[String] = _
 
  @FXML def next(): Unit = {
+  BattleShipFxApp.loadFxmlEditMode()
   BattleShipFxApp.display(BattleShipFxApp.loadEditGame,BattleShipFxApp.loadMain)
  }
 
@@ -46,9 +47,9 @@ class BattleShipFxJoin extends Initializable {
   val files = getFiles()
   val names = files.map(x => (x.getName, x.lastModified()))
   val recentGame = names.max
-
-  BattleShipFxApp.setFilename(recentGame._1)
-
+  val filename = "battleship/"++recentGame._1
+  BattleShipFxApp.setFilename(filename)
+  BattleShipFxApp.setGameRound(BattleShipFxApp.loadGameState(filename))
   println(recentGame)
  }
 

@@ -27,6 +27,7 @@ class BattleShipFxWelcome extends Initializable {
   }
 
   @FXML def join(): Unit = {
+    BattleShipFxApp.loadFxmlJoinMode()
     BattleShipFxApp.display(BattleShipFxApp.loadJoin,BattleShipFxApp.loadMain)
   }
 

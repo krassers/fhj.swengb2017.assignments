@@ -177,7 +177,7 @@ class BattleShipFxEditGame extends Initializable {
         }
         else{
           println("DEBUG: add new " + v.name + " at:" + pos.x + "/" + pos.y + " dir:" + actAligment.getText + " len:" +len)
-          var newfield = playerGame.battleField.addAtPosition(v,pos)
+          var newfield = playerGame.battleField.addAtPosition(v, pos)
 
           // check if there are changes
           if(newfield != playerGame.battleField){
