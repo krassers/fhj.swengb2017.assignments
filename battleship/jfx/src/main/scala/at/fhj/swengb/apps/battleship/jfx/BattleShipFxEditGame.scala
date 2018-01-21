@@ -23,7 +23,7 @@ class BattleShipFxEditGame extends Initializable {
   @FXML private var ships: ToggleGroup = _
   @FXML private var actShip: RadioButton = _
   @FXML private var alignment: ToggleGroup = _
-  @FXML private var actAligment: ToggleButton = _
+  @FXML private var actAlignment: ToggleButton = _
 
   @FXML
   private var battleGroundGridPane: GridPane = _
@@ -38,7 +38,7 @@ class BattleShipFxEditGame extends Initializable {
   var dir: Direction = _
 
   var checksum: Int = _
-
+  var shipPosition = Map[Int,BattlePos]()
 
   @FXML
   def back(): Unit = backToHome()
@@ -94,6 +94,7 @@ class BattleShipFxEditGame extends Initializable {
       BattleShipFxApp.display(BattleShipFxApp.loadGame, BattleShipFxApp.loadMain)
     }else {
       println("please place all vessels!")
+      alert(AlertType.ERROR,"Error","please place all vessels!")
     }
 
   }
@@ -102,6 +103,9 @@ class BattleShipFxEditGame extends Initializable {
     BattleShipFxApp.display(BattleShipFxApp.loadNewGame, BattleShipFxApp.loadMain)
   }
 
+  /**
+    *
+    */
   def deleteShipOnField(): Unit = {
 
     this.ships.getSelectedToggle match {
@@ -109,22 +113,78 @@ class BattleShipFxEditGame extends Initializable {
       case _ => throw new ClassCastException
     }
 
-    this.alignment.getSelectedToggle match {
-      case t1: ToggleButton => actAligment = t1
-      case _ => throw new ClassCastException
-    }
+    // check if ship is placed
+    if(actShip.getId.toInt < 6){
+      alert(AlertType.ERROR,"Delete Error", "Ship is not placed yet!")
+    } else {
+      // go on
+      var id = actShip.getId().charAt(0)
+      var len = actShip.getText.split(':').last.charAt(1).toString.toInt
+      //println(playerGame.battleField.fleet.vessels.seq)
+      println("id of removed ship: " + id)
+      //actShip.get
+      println(shipPosition)
+     var optpos: Option[BattlePos] = shipPosition.get(actShip.getId.charAt(0).toString.toInt)
+      //checksum -= len
+      var pos: BattlePos = optpos.get
+      var newfield = playerGame.battleField.removeAtPosition(pos)
+      if(newfield != playerGame.battleField) {
+        if (game.playerA.equals(playerGame.player)) {
+          //update field no1
+          println("player 1")
+          game = game.copy(battleShipGameA = BattleShipGame(newfield, getCellWidth, getCellHeight, x => (), game.playerA))
+          game.setCurrentPlayer(game.playerA)
+          //println("DADADSDS: " + game.getCurrentPlayer() + game.playerB.toString + game.gameName + game.playerA)
 
-    //println(actShip.getText)
-    println(actAligment.getText)
-    //toggle.getProperties[]
+          game.battleShipGameA.update(game.battleShipGameA.gameState.length)
+          // also update playerGame
+          playerGame = game.battleShipGameA
+
+        } else if (game.playerB.equals(playerGame.player)) {
+          println("player 2")
+          game = game.copy(battleShipGameB = BattleShipGame(newfield, getCellWidth, getCellHeight, x => (), game.playerB))
+          game.setCurrentPlayer(game.playerA)
+          game.battleShipGameB.update(game.battleShipGameB.gameState.length)
+
+          // also update player game
+          playerGame = game.battleShipGameB
+        }
+        //checksum for start game -> also reduced by length
+        checksum -= len
+        // set back id -> that we can place it again ;)
+        actShip.setId(actShip.getId.head.toString)
+        println("removed vessel at: " + pos)
+        println("set back id to:" + actShip.getId)
+      }
+
+    }
   }
 
+  /**
+    *
+    * @param alertType
+    * @param title
+    * @param text
+    */
+  def alert(alertType: AlertType,title: String, text: String): Unit ={
+    val al = new Alert(alertType);
+    al.setTitle(title)
+    al.setContentText(text)
+    al.showAndWait()
+  }
+
+  /**
+    *
+    * @param str
+    * @return
+    */
   def isValidNum(str: String): Boolean = {
     var valid: Boolean = true
     if(str.isEmpty){
       return false
     }
     try{
+      // TODO: 10 not hard coded
       if(str.toInt > 10){
         return false
       }
@@ -135,6 +195,9 @@ class BattleShipFxEditGame extends Initializable {
     return valid
   }
 
+  /**
+    *
+    */
   def placeShipOnField(): Unit = {
     try {
       this.ships.getSelectedToggle match {
@@ -143,41 +206,41 @@ class BattleShipFxEditGame extends Initializable {
       }
 
       this.alignment.getSelectedToggle match {
-        case t1: ToggleButton => actAligment = t1
+        case t1: ToggleButton => actAlignment = t1
         case _ => throw new ClassCastException
       }
     }catch{
-      case e: NullPointerException => println("check your inputs")
-      case e: ClassCastException => println("strange failure")
+      case e: NullPointerException => println("check your inputs: " + e.toString); alert(AlertType.INFORMATION,"Error","Check your inputs"); return
+      case e: ClassCastException => println("check your inputs: " + e.toString); alert(AlertType.INFORMATION,"Error","Check your inputs"); return
       case _ => println("smth else happend")
     }
 
       if (!this.isValidNum(startPosX.getText()) || !this.isValidNum(startPosY.getText())) {
-        println("emtpy coords")
-        val al = new Alert(AlertType.INFORMATION);
-        al.setTitle("Error")
-        al.setContentText("Enter valid Coords!")
-        al.showAndWait()
+        println("coords are not valid")
+        alert(AlertType.ERROR,"Input Error","Please enter valid coords!")
       } else {
         // Coords are valid (Syntax)
         // actShip.setStyle()
-        var pos = BattlePos(startPosX.getText().toInt, startPosY.getText().toInt)
+        val pos = BattlePos(startPosX.getText().toInt, startPosY.getText().toInt)
 
-        if(actAligment.getText.equals("Vertical")){
+        if(actAlignment.getText.equals("Vertical")){
           dir = Vertical
-        }else if(actAligment.getText.equals("Horizontal")){
+        }else if(actAlignment.getText.equals("Horizontal")){
           dir = Horizontal
         }
         var name = NonEmptyString(actShip.getText.split(' ').head)
-        var len = actShip.getId.toInt
+        var len = actShip.getText.split(':').last.charAt(1).toString.toInt
+
         var v = Vessel(name, pos, dir, len)
-        //println("len: " + len)
-        if(len > 28){
+        println("len: " + len + "id: " + actShip.getId )
+
+        if(actShip.getId.toInt > 18){
           println("Ship already placed - choose another ship!")
+          alert(AlertType.ERROR,"Input Error","Ship already placed - choose another ship!")
         }
         else{
-          println("DEBUG: add new " + v.name + " at:" + pos.x + "/" + pos.y + " dir:" + actAligment.getText + " len:" +len)
-          var newfield = playerGame.battleField.addAtPosition(v,pos)
+          println("DEBUG: add new " + v.name + " at:" + pos.x + "/" + pos.y + " dir:" + actAlignment.getText + " len:" +len)
+          var newfield = playerGame.battleField.addAtPosition(v)
 
           // check if there are changes
           if(newfield != playerGame.battleField){
@@ -205,13 +268,17 @@ class BattleShipFxEditGame extends Initializable {
             BattleShipFxApp.saveGameState(filename)
 
             // set id > 28 --> that we know if the ship was already set
+            println("add in map: " + actShip.getId + " pos:" + pos)
+            shipPosition += (actShip.getId.toInt -> pos)
+            println(shipPosition)
+            //shipPosition
             checksum += len
             actShip.setId(actShip.getId+"9")
+            alert(AlertType.INFORMATION,"Success","Ship of type placed successfully!")
           } else {
             println("Ship cannot be placed there!")
+            alert(AlertType.ERROR,"Input Error","Ship cannot be placed there!")
           }
-
-
         }
     }
   }

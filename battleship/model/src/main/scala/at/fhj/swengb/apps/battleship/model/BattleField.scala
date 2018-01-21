@@ -26,7 +26,7 @@ object BattleField {
   */
 case class BattleField(width: Int, height: Int, fleet: Fleet) {
 
-  def addAtPosition(v: Vessel, pos: BattlePos): BattleField = {
+  def addAtPosition(v: Vessel): BattleField = {
 
     if(v.occupiedPos.subsetOf(availablePos)){
       // can not be placed enter new coords
@@ -40,8 +40,9 @@ case class BattleField(width: Int, height: Int, fleet: Fleet) {
       this
     }
   }
-  def removeAtPosition(v: Vessel): BattleField = {
-
+  def removeAtPosition(pos: BattlePos): BattleField = {
+    var vessel: Option[Vessel] = this.fleet.findByPos(pos)
+    var v: Vessel = vessel.get
     if(v.occupiedPos.subsetOf(availablePos)){
       // not placed there
       println("Vessel is not placed at this position")

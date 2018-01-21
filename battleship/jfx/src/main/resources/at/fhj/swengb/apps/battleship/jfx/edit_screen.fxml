@@ -53,14 +53,14 @@
 
             <VBox prefHeight="138.0" prefWidth="120.0" BorderPane.alignment="CENTER">
                 <children>
-                    <RadioButton accessibleRole="TOGGLE_BUTTON" selected="true" text="Submarine (len: 2)" id="2">
+                    <RadioButton accessibleRole="TOGGLE_BUTTON" selected="true" text="Submarine (len: 2)" id="1" >
                        <toggleGroup>
                           <ToggleGroup fx:id="ships" />
                        </toggleGroup>
                   <padding>
                      <Insets bottom="5.0" />
                   </padding></RadioButton>
-                    <RadioButton accessibleRole="TOGGLE_BUTTON" selected="false" text="Submarine (len: 2)" id="2" toggleGroup="$ships">
+                    <RadioButton accessibleRole="TOGGLE_BUTTON" selected="false" text="Submarine (len: 2)" id="2"  toggleGroup="$ships">
                   <padding>
                      <Insets bottom="5.0" />
                   </padding></RadioButton>
@@ -68,15 +68,15 @@
                   <padding>
                      <Insets bottom="5.0" />
                   </padding></RadioButton>
-                    <RadioButton accessibleRole="TOGGLE_BUTTON" selected="false" text="Destroyer (len: 3)" id="3" toggleGroup="$ships">
+                    <RadioButton accessibleRole="TOGGLE_BUTTON" selected="false" text="Destroyer (len: 3)" id="4" toggleGroup="$ships">
                   <padding>
                      <Insets bottom="5.0" />
                   </padding></RadioButton>
-                    <RadioButton accessibleRole="TOGGLE_BUTTON" selected="false" text="Cruiser (len: 4)" id="4" toggleGroup="$ships">
+                    <RadioButton accessibleRole="TOGGLE_BUTTON" selected="false" text="Cruiser (len: 4)" id="5"  toggleGroup="$ships">
                   <padding>
                      <Insets bottom="5.0" />
                   </padding></RadioButton>
-                    <RadioButton accessibleRole="TOGGLE_BUTTON" selected="false" text="Battleship (len: 5)" id="5" toggleGroup="$ships">
+                    <RadioButton accessibleRole="TOGGLE_BUTTON" selected="false" text="Battleship (len: 5)" id="6"  toggleGroup="$ships">
                   <padding>
                      <Insets bottom="5.0" />
                   </padding></RadioButton>
