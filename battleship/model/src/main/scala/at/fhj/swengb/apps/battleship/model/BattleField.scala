@@ -4,6 +4,7 @@ import scala.util.Random
 
 object BattleField {
 
+
   def placeRandomly(bf: BattleField): BattleField = {
 
     def loop(vesselsToPlace: Set[Vessel], workingBattleField: BattleField): BattleField = {
@@ -24,6 +25,31 @@ object BattleField {
   * Denotes the size of our region of interest
   */
 case class BattleField(width: Int, height: Int, fleet: Fleet) {
+
+  def addAtPosition(v: Vessel, pos: BattlePos): BattleField = {
+
+    if(v.occupiedPos.subsetOf(availablePos)){
+      // can not be placed enter new coords
+      // return current vessel + vessel at pos
+      println("we add a new fucking vessel")
+      this.copy(fleet = this.fleet.copy(vessels = this.fleet.vessels + v))
+
+    }else{
+
+      println("whaat why?")
+      this
+    }
+  }
+  def removeAtPosition(v: Vessel): BattleField = {
+
+    if(v.occupiedPos.subsetOf(availablePos)){
+      // not placed there
+      println("Vessel is not placed at this position")
+      this
+    }else {
+      this.copy(fleet = this.fleet.copy(vessels = this.fleet.vessels - v))
+    }
+  }
 
   /**
     * Adds vessel at a random, free position in the battlefield. if no position could be found,
@@ -70,6 +96,4 @@ case class BattleField(width: Int, height: Int, fleet: Fleet) {
   def randomFleet(): Fleet = {
     Fleet(Set[Vessel]())
   }
-
-
 }
