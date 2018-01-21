@@ -36,6 +36,7 @@ class BattleShipFxEditGame extends Initializable {
   var playerGame: BattleShipGame = _
   var filename: String = _
   var dir: Direction = _
+  var numberPlayers: Int = _
 
   var checksum: Int = _
   var shipPosition = Map[Int,BattlePos]()
@@ -54,6 +55,7 @@ class BattleShipFxEditGame extends Initializable {
       println("DEBUG: now we can load/edit it because we have a game")
       game = BattleShipFxApp.getGameRound()
       filename = BattleShipFxApp.getFilename()
+      numberPlayers = game.getNumberCurrentPlayers()
       loadGameRoundForPlayer()
 
     }
@@ -90,6 +92,8 @@ class BattleShipFxEditGame extends Initializable {
       BattleShipFxApp.setGameRound(game)
       BattleShipFxApp.setFilename(filename)
       BattleShipFxApp.saveGameState(filename)
+      println("createGame ---------- "++ numberPlayers.toString)
+      game.setNumberCurrentPlayers(numberPlayers)
       BattleShipFxApp.loadFxmlGameMode()
       BattleShipFxApp.display(BattleShipFxApp.loadGame, BattleShipFxApp.loadMain)
     }else {

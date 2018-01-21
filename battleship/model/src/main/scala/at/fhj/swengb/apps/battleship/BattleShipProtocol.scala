@@ -12,8 +12,6 @@ object BattleShipProtocol {
       .setGameA(convert(g.battleShipGameA))
       .setGameB(convert(g.battleShipGameB))
       .setGameName(g.gameName)
-      .setCurrentPlayer(g.getCurrentPlayer())
-      .setNumberCurrentPlayers(g.getNumberCurrentPlayers())
       .setPlayerA(g.playerA)
       .setPlayerB(g.playerB).build()
   }

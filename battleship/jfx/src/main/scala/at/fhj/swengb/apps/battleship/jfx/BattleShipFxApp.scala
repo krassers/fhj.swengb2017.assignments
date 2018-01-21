@@ -7,7 +7,7 @@ import javafx.stage.Stage
 
 import scala.util.{Failure, Success, Try}
 import java.io.IOException
-import java.nio.file.{Files, Paths}
+import java.nio.file.{Files, Paths, StandardOpenOption}
 import java.util.Calendar
 import javafx.scene.control.ProgressBar
 import javafx.scene.image.ImageView
@@ -100,14 +100,19 @@ object BattleShipFxApp {
 
     highscore = load("/at/fhj/swengb/apps/battleship/jfx/highscore_screen.fxml")
     credits = load("/at/fhj/swengb/apps/battleship/jfx/credit_screen.fxml")
-    join = load("/at/fhj/swengb/apps/battleship/jfx/join_screen.fxml")
+
   }
 
   def loadFxmlEditMode(): Unit = {
+
     editGame = load("/at/fhj/swengb/apps/battleship/jfx/edit_screen.fxml")
   }
   def loadFxmlGameMode(): Unit = {
     game = load("/at/fhj/swengb/apps/battleship/jfx/game_screen.fxml")
+  }
+
+  def loadFxmlJoinMode(): Unit = {
+    join = load("/at/fhj/swengb/apps/battleship/jfx/join_screen.fxml")
   }
 
   private def load(file: String): Scene = {
@@ -158,8 +163,6 @@ object BattleShipFxApp {
   }
 
   def saveGameState(fname: String): Unit = {
-    //val datetime = Calendar.getInstance().getTime
-    //val test = datetime.toString.filterNot(x => x.isWhitespace ||  x.equals(':'))
     filename = fname
     convert(gameRound).writeTo(Files.newOutputStream(Paths.get(filename)))
   }
@@ -174,6 +177,7 @@ object BattleShipFxApp {
       x=>(),
       convert(reload).battleShipGameA,
       convert(reload).battleShipGameB)
+
 
     gameWithOldValues.battleShipGameA.gameState = convert(reload).battleShipGameA.gameState
     gameWithOldValues.battleShipGameB.gameState = convert(reload).battleShipGameB.gameState
