@@ -49,7 +49,12 @@ class BattleShipFxJoin extends Initializable {
   val recentGame = names.max
   val filename = "battleship/"++recentGame._1
   BattleShipFxApp.setFilename(filename)
-  BattleShipFxApp.setGameRound(BattleShipFxApp.loadGameState(filename))
+
+  val gameRound = BattleShipFxApp.loadGameState(filename)
+  gameRound.setNumberCurrentPlayers(2)
+  BattleShipFxApp.setGameRound(gameRound)
+
+
   println(recentGame)
  }
 
