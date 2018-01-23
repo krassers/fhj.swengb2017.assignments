@@ -1,8 +1,11 @@
 package at.fhj.swengb.apps.battleship
 
+import java.text.SimpleDateFormat
+
 import scala.collection.JavaConverters._
 import at.fhj.swengb.apps.battleship.BattleShipProtobuf.Game.Direction
 import at.fhj.swengb.apps.battleship.model._
+import java.util.Date
 
 object BattleShipProtocol {
 
@@ -58,7 +61,15 @@ object BattleShipProtocol {
   def convert(g: BattlePos): BattleShipProtobuf.Game.BattlePos = BattleShipProtobuf.Game.BattlePos.newBuilder().setX(g.x).setY(g.y).build()
 
   // Convert back
-  def convert(g: BattleShipProtobuf.Game) : GameRound = GameRound(g.getPlayerA, g.getPlayerB, g.getGameName, x=>(), convert(g.getGameA), convert(g.getGameB))
+  def convert(g: BattleShipProtobuf.Game) : GameRound = {
+      val round = GameRound(g.getPlayerA, g.getPlayerB, g.getGameName, x=>(), convert(g.getGameA), convert(g.getGameB))
+      round.setWinner(g.getWinner)
+      val date = new Date(g.getStartDate)
+      round.setDate(date)
+      round.setNumOfShots(g.getNumOfShots)
+
+      round
+    }
 
   def convert(g: BattleShipProtobuf.Game.Vessel): Vessel = {
     val direction = {

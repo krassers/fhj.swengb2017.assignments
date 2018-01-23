@@ -57,6 +57,7 @@ class BattleShipFxEditGame extends Initializable {
       filename = BattleShipFxApp.getFilename()
       numberPlayers = game.getNumberCurrentPlayers()
       loadGameRoundForPlayer()
+      reloadGrid()
     }
   }
 
@@ -67,6 +68,7 @@ class BattleShipFxEditGame extends Initializable {
   def reloadGrid(): Unit = {
 
     val newgame = game.battleShipGameA.copy(getCellWidth = this.getCellWidth, getCellHeight = this.getCellHeight)
+
 
     battleGroundGridPane.setDisable(true)
     battleGroundGridPane.getChildren.clear()

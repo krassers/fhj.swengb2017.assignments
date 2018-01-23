@@ -64,7 +64,7 @@ class BattleShipGameProtocolSpec extends WordSpecLike {
 
       val actualBattlefield : BattleShipProtobuf.Game.BattleField = BattleShipProtocol.convert(expectedBattlefield)
 
-      assert(expectedBattlefield.width == actualBattlefield.getWith)
+      assert(expectedBattlefield.width == actualBattlefield.getWidth)
       assert(expectedBattlefield.height == actualBattlefield.getHeight)
       assert(expectedBattlefield.fleet == BattleShipProtocol.convert(actualBattlefield.getFleet))
     }

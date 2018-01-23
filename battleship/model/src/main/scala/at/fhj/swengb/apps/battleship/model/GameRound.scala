@@ -41,7 +41,9 @@ case class GameRound(playerA: String,
 
   def getWinner(): String = this.winner
 
-  def incrNumOfShots(): Unit = numOfShots += 1
+  def incNumOfShots(): Unit = numOfShots += 1
+
+  def setNumOfShots(numShots: Int): Unit = this.numOfShots = numShots
 
   def getNumOfShots(): Int = numOfShots
 
