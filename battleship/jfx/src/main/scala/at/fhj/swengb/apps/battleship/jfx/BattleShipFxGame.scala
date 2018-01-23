@@ -3,7 +3,7 @@ package at.fhj.swengb.apps.battleship.jfx
 import javafx.scene.control.TextArea
 import java.net.URL
 import java.nio.file.{Files, Paths}
-import java.util.{Calendar, ResourceBundle}
+import java.util.{Calendar, Date, ResourceBundle}
 import javafx.fxml.{FXML, Initializable}
 import javafx.scene.layout.GridPane
 import javafx.scene.text.Text
@@ -49,6 +49,8 @@ class BattleShipFxGame extends Initializable {
   private val fileName: String = BattleShipFxApp.getFilename()
   private var numberPlayers: Int = _
   private var currentPlayer: String = _
+  private var date: Date = _
+  private var numShots: Int = _
   /*private var newBsGameA: BattleShipGame = _
   private var newBsGameB: BattleShipGame = _*/
 
@@ -75,7 +77,11 @@ class BattleShipFxGame extends Initializable {
     val newBsGameA = game.battleShipGameA.copy(getCellWidth = this.getCellWidth, getCellHeight = this.getCellHeight, log = appendLog)
     val newBsGameB = game.battleShipGameB.copy(getCellWidth = this.getCellWidth, getCellHeight = this.getCellHeight, log = appendLog)
 
-    BattleShipFxApp.setGameRound(game.copy(battleShipGameA = newBsGameA, battleShipGameB = newBsGameB))
+    val round = game.copy(battleShipGameA = newBsGameA, battleShipGameB = newBsGameB)
+    round.setDate(date)
+    round.setNumOfShots(numShots)
+    round.setWinner("")
+    BattleShipFxApp.setGameRound(round)
     gameRound = BattleShipFxApp.getGameRound()
 
     ownGridPane.setDisable(true)
@@ -112,6 +118,10 @@ class BattleShipFxGame extends Initializable {
   def initAfterReload(game: GameRound): Unit = {
 
     setLabels()
+    game.setDate(date)
+    game.setNumOfShots(numShots)
+    game.setWinner("")
+
     BattleShipFxApp.setGameRound(game)
     gameRound = game
 
@@ -155,6 +165,8 @@ class BattleShipFxGame extends Initializable {
       numberPlayers = gameRound.getNumberCurrentPlayers()
       gameRound.setCurrentPlayer(gameRound.playerA)
       currentPlayer = gameRound.getCurrentPlayer()
+      date = gameRound.getDate()
+      numShots = 10
 
       init(gameRound)
       appendLog("New game started.")
@@ -210,7 +222,9 @@ class BattleShipFxGame extends Initializable {
 
     }
     setLabels()
-
+    gameRound.setDate(date)
+    gameRound.setNumOfShots(numShots)
+    gameRound.setWinner("")
     BattleShipFxApp.saveGameState(fileName)
     appendLog("Saved the game")
 
