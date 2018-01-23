@@ -53,9 +53,7 @@ class BattleShipFxHighscore extends Initializable {
     initTableViewColumn[String](colWinner, _.winner)
     initTableViewColumn[String](colGameName, _.gameName)
     initTableViewColumn[Int](colNumOfMoves,_.numOfShots)
-
-
-    println(DataSource.getFiles())
+    //println(DataSource.getFiles())
 
   }
 }
@@ -94,9 +92,9 @@ object DataSource {
     else
       List[File]()
   }
-  print("LALALLALALL:")
-  println(getFiles().map(x => (x.getName, BattleShipFxApp.loadGameState("battleship/"+x.getName).getDate())))
-  println()
+  //print("LALALLALALL:")
+  //println(getFiles().map(x => (x.getName, BattleShipFxApp.loadGameState("battleship/"+x.getName).getDate())))
+
   val names = getFiles().map {
     (x => HighscoreL(BattleShipFxApp.loadGameState("battleship/"+x.getName).getDate(),
                      BattleShipFxApp.loadGameState("battleship/"+x.getName).getWinner(),

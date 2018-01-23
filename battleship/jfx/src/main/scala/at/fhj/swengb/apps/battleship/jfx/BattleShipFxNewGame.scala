@@ -53,10 +53,7 @@ class BattleShipFxNewGame extends Initializable {
    val player1 = playerA.getText
    val player2 = playerB.getText
 
-
-   // TODO: Eingabevalidierung?
-
-   println("Name: " + name + "Player1: " + player1 + "Player2: "+ player2)
+   //println("Name: " + name + "Player1: " + player1 + "Player2: "+ player2)
    // create a new game and switch screen
    //val fieldA = BattleField(10, 10, Fleet(FleetConfig.EmptyFleet))
    //val fieldB = BattleField(10, 10, Fleet(FleetConfig.EmptyFleet))

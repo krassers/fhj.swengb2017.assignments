@@ -53,12 +53,12 @@ class BattleShipFxEditGame extends Initializable {
 
   private def initGame(): Unit = {
     if (BattleShipFxApp.getGameRound() != null) {
-      println("DEBUG: now we can load/edit it because we have a game")
+      //println("DEBUG: now we can load/edit it because we have a game")
       game = BattleShipFxApp.getGameRound()
       filename = BattleShipFxApp.getFilename()
       numberPlayers = game.getNumberCurrentPlayers()
       startDate = game.getDate()
-      println(game.getDate()+" "+game.getNumOfShots()+" " + game.getWinner())
+      //println(game.getDate()+" "+game.getNumOfShots()+" " + game.getWinner())
       loadGameRoundForPlayer()
     }
   }
@@ -71,7 +71,7 @@ class BattleShipFxEditGame extends Initializable {
 
     if (game.getNumberCurrentPlayers() != null) {
       if (playerGame == game.battleShipGameA) {
-        println("GRID-Player01")
+        //println("GRID-Player01")
         val newgame = game.battleShipGameA.copy(getCellWidth = this.getCellWidth, getCellHeight = this.getCellHeight)
         battleGroundGridPane.setDisable(true)
         battleGroundGridPane.getChildren.clear()
@@ -80,7 +80,7 @@ class BattleShipFxEditGame extends Initializable {
         }
         newgame.getCells().foreach(c => c.init)
       } else if (playerGame == game.battleShipGameB) {
-        println("GRID-Player02")
+        //println("GRID-Player02")
         val newgame = game.battleShipGameB.copy(getCellWidth = this.getCellWidth, getCellHeight = this.getCellHeight)
         battleGroundGridPane.setDisable(true)
         battleGroundGridPane.getChildren.clear()
@@ -93,9 +93,9 @@ class BattleShipFxEditGame extends Initializable {
   }
 
   def loadGameRoundForPlayer(): Unit = {
-    println("first load")
-    println(game.getNumberCurrentPlayers())
-    println(game.getCurrentPlayer())
+    //println("first load")
+    //println(game.getNumberCurrentPlayers())
+    //println(game.getCurrentPlayer())
     if (game.getNumberCurrentPlayers() != null) {
       if (game.getNumberCurrentPlayers() == 1) {
         // display edit mode for player
@@ -116,26 +116,34 @@ class BattleShipFxEditGame extends Initializable {
     // check if all vessels are placed:
     if(checksum > 18){
       //is ok
-      println(game.battleShipGameA.gameState)
-      println(game)
+      //println(game.battleShipGameA.gameState)
+      //println(game)
       game.resetNumberofShots()
       game.setWinner("")
       game.setDate(startDate)
       BattleShipFxApp.setGameRound(game)
       BattleShipFxApp.setFilename(filename)
       BattleShipFxApp.saveGameState(filename)
-      println("createGame ---------- "++ numberPlayers.toString)
+      //println("createGame ---------- "++ numberPlayers.toString)
       game.setNumberCurrentPlayers(numberPlayers)
       BattleShipFxApp.loadFxmlGameMode()
       BattleShipFxApp.display(BattleShipFxApp.loadGame, BattleShipFxApp.loadMain)
     }else {
-      println("please place all vessels!")
+      //println("please place all vessels!")
       alert(AlertType.ERROR,"Error","please place all vessels!")
     }
 
   }
 
+  /**
+    * curr player -1; inform user what is going to happen; go back home
+    */
   def backToHome(): Unit = {
+    alert(AlertType.INFORMATION,"Information", "Actual game state will be saved! Going to Menu")
+    game.setNumberCurrentPlayers(game.getNumberCurrentPlayers()-1)
+    BattleShipFxApp.setGameRound(game)
+    BattleShipFxApp.setFilename(filename)
+    BattleShipFxApp.saveGameState(filename)
     BattleShipFxApp.display(BattleShipFxApp.loadWelcome, BattleShipFxApp.loadMain)
   }
 
@@ -157,17 +165,18 @@ class BattleShipFxEditGame extends Initializable {
       var id = actShip.getId().charAt(0)
       var len = actShip.getText.split(':').last.charAt(1).toString.toInt
       //println(playerGame.battleField.fleet.vessels.seq)
-      println("id of removed ship: " + id)
+      //println("id of removed ship: " + id)
       //actShip.get
       println(shipPosition)
-     var optpos: Option[BattlePos] = shipPosition.get(actShip.getId.charAt(0).toString.toInt)
+      var optpos: Option[BattlePos] = shipPosition.get(actShip.getId.charAt(0).toString.toInt)
       //checksum -= len
       var pos: BattlePos = optpos.get
       var newfield = playerGame.battleField.removeAtPosition(pos)
+
       if(newfield != playerGame.battleField) {
         if (game.playerA.equals(playerGame.player)) {
           //update field no1
-          println("player 1")
+          //println("player 1")
           game = game.copy(battleShipGameA = BattleShipGame(newfield, getCellWidth, getCellHeight, x => (), game.playerA))
           game.setCurrentPlayer(game.playerA)
           //println("DADADSDS: " + game.getCurrentPlayer() + game.playerB.toString + game.gameName + game.playerA)
@@ -177,25 +186,31 @@ class BattleShipFxEditGame extends Initializable {
           playerGame = game.battleShipGameA
 
         } else if (game.playerB.equals(playerGame.player)) {
-          println("player 2")
+          //println("player 2")
           game = game.copy(battleShipGameB = BattleShipGame(newfield, getCellWidth, getCellHeight, x => (), game.playerB))
           game.setCurrentPlayer(game.playerA)
           game.battleShipGameB.update(game.battleShipGameB.gameState.length)
-
           // also update player game
           playerGame = game.battleShipGameB
         }
         //checksum for start game -> also reduced by length
         checksum -= len
+
+        // setter for game and highscore
         game.resetNumberofShots()
         game.setWinner("")
         game.setDate(startDate)
+
+        // Actual states
+        BattleShipFxApp.setGameRound(game)
+        BattleShipFxApp.setFilename(filename)
+        BattleShipFxApp.saveGameState(filename)
         // set back id -> that we can place it again ;)
         actShip.setId(actShip.getId.head.toString)
         reloadGrid()
         alert(AlertType.INFORMATION, "Sucess","Sucessfully removed vessel at: " + pos)
-        println("removed vessel at: " + pos)
-        println("set back id to:" + actShip.getId)
+        //println("removed vessel at: " + pos)
+        //println("set back id to:" + actShip.getId)
 
       }
 
@@ -258,7 +273,7 @@ class BattleShipFxEditGame extends Initializable {
     }
 
       if (!this.isValidNum(startPosX.getText()) || !this.isValidNum(startPosY.getText())) {
-        println("coords are not valid")
+        //println("coords are not valid")
         alert(AlertType.ERROR,"Input Error","Please enter valid coords!")
       } else {
         // Coords are valid (Syntax)
@@ -274,21 +289,21 @@ class BattleShipFxEditGame extends Initializable {
         var len = actShip.getText.split(':').last.charAt(1).toString.toInt
 
         var v = Vessel(name, pos, dir, len)
-        println("len: " + len + "id: " + actShip.getId )
+        //println("len: " + len + "id: " + actShip.getId )
 
         if(actShip.getId.toInt > 18){
-          println("Ship already placed - choose another ship!")
+          //println("Ship already placed - choose another ship!")
           alert(AlertType.ERROR,"Input Error","Ship already placed - choose another ship!")
         }
         else{
-          println("DEBUG: add new " + v.name + " at:" + pos.x + "/" + pos.y + " dir:" + actAlignment.getText + " len:" +len)
+          //println("DEBUG: add new " + v.name + " at:" + pos.x + "/" + pos.y + " dir:" + actAlignment.getText + " len:" +len)
           var newfield = playerGame.battleField.addAtPosition(v)
 
           // check if there are changes
           if(newfield != playerGame.battleField){
             if(game.playerA.equals(playerGame.player)){
               //update field no1
-              println("player 1")
+              //println("player 1")
               game = game.copy(battleShipGameA = BattleShipGame(newfield, getCellWidth,getCellHeight, x => (),game.playerA))
               game.setCurrentPlayer(game.playerA)
               //println("DADADSDS: " + game.getCurrentPlayer() + game.playerB.toString + game.gameName + game.playerA)
@@ -298,7 +313,7 @@ class BattleShipFxEditGame extends Initializable {
               playerGame = game.battleShipGameA
 
             }else if(game.playerB.equals(playerGame.player)){
-              println("player 2")
+              //println("player 2")
               game = game.copy(battleShipGameB = BattleShipGame(newfield, getCellWidth,getCellHeight, x => (),game.playerB))
               game.setCurrentPlayer(game.playerA)
               game.battleShipGameB.update(game.battleShipGameB.gameState.length)
@@ -309,21 +324,24 @@ class BattleShipFxEditGame extends Initializable {
             game.resetNumberofShots()
             game.setWinner("")
             game.setDate(startDate)
+
+            //println("SETZEN: " + game.getDate() + game.getNumOfShots() )
             BattleShipFxApp.setGameRound(game)
-            println("SETZEN: " + game.getDate() + game.getNumOfShots() )
+            BattleShipFxApp.setFilename(filename)
             BattleShipFxApp.saveGameState(filename)
 
             // set id > 28 --> that we know if the ship was already set
-            println("add in map: " + actShip.getId + " pos:" + pos)
+            //println("add in map: " + actShip.getId + " pos:" + pos)
             shipPosition += (actShip.getId.toInt -> pos)
-            println(shipPosition)
+            //println(shipPosition)
             //shipPosition
             checksum += len
             actShip.setId(actShip.getId+"9")
-            alert(AlertType.INFORMATION,"Success","Ship of type placed successfully!")
             reloadGrid()
+            alert(AlertType.INFORMATION,"Success","Ship of type placed successfully!")
+
           } else {
-            println("Ship cannot be placed there!")
+            //println("Ship cannot be placed there!")
             alert(AlertType.ERROR,"Input Error","Ship cannot be placed there!")
           }
         }

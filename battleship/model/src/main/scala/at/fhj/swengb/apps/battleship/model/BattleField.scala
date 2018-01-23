@@ -31,12 +31,12 @@ case class BattleField(width: Int, height: Int, fleet: Fleet) {
     if(v.occupiedPos.subsetOf(availablePos)){
       // can not be placed enter new coords
       // return current vessel + vessel at pos
-      println("we add a new fucking vessel")
+      //println("we add a new fucking vessel")
       this.copy(fleet = this.fleet.copy(vessels = this.fleet.vessels + v))
 
     }else{
 
-      println("whaat why?")
+      //println("whaat why?")
       this
     }
   }
@@ -45,7 +45,7 @@ case class BattleField(width: Int, height: Int, fleet: Fleet) {
     var v: Vessel = vessel.get
     if(v.occupiedPos.subsetOf(availablePos)){
       // not placed there
-      println("Vessel is not placed at this position")
+      //println("Vessel is not placed at this position")
       this
     }else {
       this.copy(fleet = this.fleet.copy(vessels = this.fleet.vessels - v))
