@@ -57,12 +57,24 @@ class BattleShipFxEditGame extends Initializable {
       filename = BattleShipFxApp.getFilename()
       numberPlayers = game.getNumberCurrentPlayers()
       loadGameRoundForPlayer()
-
     }
   }
 
+
   override def initialize(location: URL, resources: ResourceBundle): Unit = initGame
 
+
+  def reloadGrid(): Unit = {
+
+    val newgame = game.battleShipGameA.copy(getCellWidth = this.getCellWidth, getCellHeight = this.getCellHeight)
+
+    battleGroundGridPane.setDisable(true)
+    battleGroundGridPane.getChildren.clear()
+    for (c <- newgame.getCells) {
+      battleGroundGridPane.add(c, c.pos.x, c.pos.y)
+    }
+    newgame.getCells().foreach(c => c.init)
+  }
 
   def loadGameRoundForPlayer(): Unit = {
     println("first load")
@@ -79,6 +91,7 @@ class BattleShipFxEditGame extends Initializable {
         playerGame = game.battleShipGameB
       }
     }
+    reloadGrid()
 
   }
 
@@ -157,8 +170,11 @@ class BattleShipFxEditGame extends Initializable {
         checksum -= len
         // set back id -> that we can place it again ;)
         actShip.setId(actShip.getId.head.toString)
+        reloadGrid()
+        alert(AlertType.INFORMATION, "Sucess","Sucessfully removed vessel at: " + pos)
         println("removed vessel at: " + pos)
         println("set back id to:" + actShip.getId)
+
       }
 
     }
@@ -279,6 +295,7 @@ class BattleShipFxEditGame extends Initializable {
             checksum += len
             actShip.setId(actShip.getId+"9")
             alert(AlertType.INFORMATION,"Success","Ship of type placed successfully!")
+            reloadGrid()
           } else {
             println("Ship cannot be placed there!")
             alert(AlertType.ERROR,"Input Error","Ship cannot be placed there!")
