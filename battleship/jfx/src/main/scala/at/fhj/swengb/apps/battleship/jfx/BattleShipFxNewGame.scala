@@ -77,9 +77,10 @@ class BattleShipFxNewGame extends Initializable {
     game = GameRound(player1, player2, name, x => (), gameA, gameB)
     game.setCurrentPlayer(player1)
     game.setNumberCurrentPlayers(1)
-
+   game.resetNumberofShots()
    //val test = datetime.toString.filterNot(x => x.isWhitespace ||  x.equals(':'))
    val now = Calendar.getInstance().getTime()
+
    val formatDate = new SimpleDateFormat("yyyyMMdd_hh_mm")
    val day = formatDate.format(now)
    //day = day.replace(':','.')

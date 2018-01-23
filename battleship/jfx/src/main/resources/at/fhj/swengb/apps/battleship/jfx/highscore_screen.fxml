@@ -33,7 +33,7 @@
     <center>
         <VBox maxWidth="730">
             <children>
-                <TableView opacity="0.8">
+                <TableView fx:id="tableViewHighscore" opacity="0.8">
                     <columns>
                         <TableColumn fx:id="colDate" prefWidth="140" text="Date">
                         </TableColumn>
