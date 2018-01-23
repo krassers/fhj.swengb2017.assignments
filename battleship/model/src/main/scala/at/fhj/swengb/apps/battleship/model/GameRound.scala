@@ -1,5 +1,7 @@
 package at.fhj.swengb.apps.battleship.model
 
+import java.util.Date
+
 case class GameRound(playerA: String,
                      playerB: String,
                      gameName: String,
@@ -11,7 +13,7 @@ case class GameRound(playerA: String,
   private var numberCurrentPlayers: Int = _
   private var currentPlayer: String = _
   private var numOfShots: Int = _
-
+  private var playDate: Date = _
   /*private val = battleShipGameA = createGame(playerA, getCellWidth, getCellHeight, log)
   private val = battleShipGameB = createGame(playerB, getCellWidth, getCellHeight, log)
 
@@ -26,6 +28,9 @@ case class GameRound(playerA: String,
     val battlefield: BattleField = BattleField.placeRandomly(field)
     BattleShipGame(battlefield, getCellWidth, getCellHeight, log, player)
   }*/
+  def setDate(date: Date): Unit = this.playDate = date
+
+  def getDate(): Date = return this.playDate
 
   def setWinner(winnerName: String): Unit = this.winner = winnerName
 
