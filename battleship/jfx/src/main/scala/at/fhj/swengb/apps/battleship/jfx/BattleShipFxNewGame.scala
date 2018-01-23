@@ -18,7 +18,7 @@ class BattleShipFxNewGame extends Initializable {
 
  // game config
  // **************************************************************
- val list1: List[String] = List("Battle", "Massacre", "Nice")
+ val list1: List[String] = List("Battle", "Massacre", "Attack")
  val list2: List[String] = List("of", "at", "in")
  val list3: List[String] = List("Beer", "Bearstards", "Graz")
  // **************************************************************
@@ -90,7 +90,8 @@ class BattleShipFxNewGame extends Initializable {
    //filename = filename.replace(' ','%')
    BattleShipFxApp.setGameRound(game)
    BattleShipFxApp.setFilename("battleship/" + filename)
-   println("filename for new: " + filename)
+   //println("filename for new: " + filename)
+   
    BattleShipFxApp.saveGameState("battleship/" + filename)
    BattleShipFxApp.loadFxmlEditMode()
    BattleShipFxApp.display(BattleShipFxApp.loadEditGame,BattleShipFxApp.loadMain)
