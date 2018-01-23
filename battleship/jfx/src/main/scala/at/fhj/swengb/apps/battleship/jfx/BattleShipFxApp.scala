@@ -198,7 +198,8 @@ object BattleShipFxApp {
       stage.setTitle("Battleship")
       stage.setResizable(false)
       BattleShipFxApp.main = stage
-      BattleShipFxApp.display(BattleShipFxApp.loadWelcome,stage)
+      BattleShipFxApp.display(BattleShipFxApp.loadSplash,stage)
+
     }
 
 
