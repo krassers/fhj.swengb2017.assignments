@@ -7,6 +7,7 @@ case class GameRound(playerA: String,
                      battleShipGameA: BattleShipGame,
                      battleShipGameB: BattleShipGame) {
 
+  private var winner: String = _
   private var numberCurrentPlayers: Int = _
   private var currentPlayer: String = _
   private var numOfShots: Int = _
@@ -25,6 +26,10 @@ case class GameRound(playerA: String,
     val battlefield: BattleField = BattleField.placeRandomly(field)
     BattleShipGame(battlefield, getCellWidth, getCellHeight, log, player)
   }*/
+
+  def setWinner(winnerName: String): Unit = this.winner = winnerName
+
+  def getWinner(): String = this.winner
 
   def incrNumOfShots(): Unit = numOfShots += 1
 
