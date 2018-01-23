@@ -32,11 +32,11 @@ message Game {
     }
 
     message BattleField {
-        int32 with = 1;
+
+        int32 width = 1;
         int32 height = 2;
         Fleet fleet = 3;
     }
-
 
 
     // The cells attribute contains the clicked cells
@@ -49,15 +49,13 @@ message Game {
     }
 
     string gameName = 1;
-    string date = 2;
+    string startDate = 2;
     string winner = 3;
     BattleShipGame gameA = 4;
     BattleShipGame gameB = 5;
-    int32 numberCurrentPlayers = 6;
-    string currentPlayer = 7;
-    string playerA = 8;
-    string playerB = 9;
-
+    string playerA = 6;
+    string playerB = 7;
+    int32 numOfShots = 8;
 }
 
 message Highscore {

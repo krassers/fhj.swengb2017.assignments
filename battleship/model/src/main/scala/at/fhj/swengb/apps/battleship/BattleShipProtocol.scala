@@ -13,7 +13,10 @@ object BattleShipProtocol {
       .setGameB(convert(g.battleShipGameB))
       .setGameName(g.gameName)
       .setPlayerA(g.playerA)
-      .setPlayerB(g.playerB).build()
+      .setPlayerB(g.playerB)
+      .setNumOfShots(g.getNumOfShots())
+      .setStartDate(g.getDate().toString)
+      .setWinner(g.getWinner()).build()
   }
 
   def convert(g: BattleShipGame): BattleShipProtobuf.Game.BattleShipGame = {
@@ -48,7 +51,7 @@ object BattleShipProtocol {
   def convert(g: BattleField): BattleShipProtobuf.Game.BattleField = {
     BattleShipProtobuf.Game.BattleField.newBuilder()
       .setFleet(convert(g.fleet))
-      .setWith(g.width)
+      .setWidth(g.width)
       .setHeight(g.height).build()
   }
 
@@ -73,7 +76,7 @@ object BattleShipProtocol {
     Fleet(vessels)
   }
 
-  def convert(g: BattleShipProtobuf.Game.BattleField) : BattleField = BattleField(g.getWith, g.getHeight, convert(g.getFleet))
+  def convert(g: BattleShipProtobuf.Game.BattleField) : BattleField = BattleField(g.getWidth, g.getHeight, convert(g.getFleet))
 
   def convert(g: BattleShipProtobuf.Game.BattleShipGame): BattleShipGame = {
 

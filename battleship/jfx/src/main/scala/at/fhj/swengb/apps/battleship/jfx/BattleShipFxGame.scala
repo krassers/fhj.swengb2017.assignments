@@ -91,7 +91,7 @@ class BattleShipFxGame extends Initializable {
       for (c <- newBsGameB.getCells) {
         enemyGridPane.add(c, c.pos.x, c.pos.y)
       }
-      newBsGameB.getCells().foreach(c => c.init)
+      //newBsGameB.getCells().foreach(c => c.init)
     }
     else if(game.getNumberCurrentPlayers() == 2) {
       ownGridPane.getChildren.clear()
@@ -105,7 +105,7 @@ class BattleShipFxGame extends Initializable {
       for (c <- newBsGameA.getCells) {
         enemyGridPane.add(c, c.pos.x, c.pos.y)
       }
-      newBsGameA.getCells().foreach(c => c.init)
+      //newBsGameA.getCells().foreach(c => c.init)
     }
   }
 
@@ -130,7 +130,7 @@ class BattleShipFxGame extends Initializable {
       for (c <- game.battleShipGameB.getCells) {
         enemyGridPane.add(c, c.pos.x, c.pos.y)
       }
-      game.battleShipGameB.getCells().foreach(c => c.init)
+      //game.battleShipGameB.getCells().foreach(c => c.init)
     }
     else if(numberPlayers == 2) {
       ownGridPane.getChildren.clear()
@@ -144,7 +144,7 @@ class BattleShipFxGame extends Initializable {
       for (c <- game.battleShipGameA.getCells) {
         enemyGridPane.add(c, c.pos.x, c.pos.y)
       }
-      game.battleShipGameA.getCells().foreach(c => c.init)
+      //game.battleShipGameA.getCells().foreach(c => c.init)
     }
   }
 

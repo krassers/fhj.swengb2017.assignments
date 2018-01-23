@@ -76,4 +76,10 @@
 | 6
 | finished NewGameController- EditModeController - add/remove of vessels - model classes extended
 
+| krassers16
+| 21.01.2018
+| 3
+| 4
+| Battlefield of both players is displayed correctly (fixed another load bug), both players can play against each other (no one is able to really 'win' yet)
+
 |===
