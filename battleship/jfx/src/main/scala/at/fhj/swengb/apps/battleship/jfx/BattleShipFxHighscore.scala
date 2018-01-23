@@ -1,5 +1,6 @@
 package at.fhj.swengb.apps.battleship.jfx
 
+import java.io.File
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util
@@ -12,6 +13,7 @@ import javafx.scene.Scene
 import javafx.scene.control.{TableColumn, TableView}
 import javafx.util.Callback
 
+import at.fhj.swengb.apps.battleship.jfx.DataSource.getFiles
 import at.fhj.swengb.apps.battleship.model.{GameRound, HighscoreL, HighscoreLine}
 
 
@@ -50,6 +52,10 @@ class BattleShipFxHighscore extends Initializable {
     initTableViewColumn[String](colWinner, _.winner)
     initTableViewColumn[String](colGameName, _.gameName)
     initTableViewColumn[Int](colNumOfMoves,_.numOfShots)
+
+
+    println(DataSource.getFiles())
+
   }
 }
 
@@ -79,10 +85,26 @@ object JfxUtils {
 }
 
 object DataSource {
-  // 1 to n Files -> but only files where
+
+  def getFiles(): List[File] = {
+    val d = new File("battleship")
+    if (d.exists && d.isDirectory)
+      d.listFiles.filter(x => x.isFile && x.getName.contains(".bin")).toList
+    else
+      List[File]()
+  }
+  print("LALALLALALL:")
+  println(getFiles().map(x => (x.getName, x.lastModified())))
+
+  val names = getFiles().map {
+    (x => HighscoreL(BattleShipFxApp.loadGameState(x.getName).getDate(),
+                     BattleShipFxApp.loadGameState(x.getName).getWinner(),
+                     BattleShipFxApp.loadGameState(x.getName).gameName,
+                     BattleShipFxApp.loadGameState(x.getName).getNumOfShots() ))
+  }
   val data =
-    (1 to 10) map {
-      case i => HighscoreL(Calendar.getInstance().getTime(),"dssd","sdf",5)
+    (0 to getFiles().size) map {
+      case i => HighscoreL(Calendar.getInstance().getTime(),i.toString,"sdf",5)
     }
 }
 
