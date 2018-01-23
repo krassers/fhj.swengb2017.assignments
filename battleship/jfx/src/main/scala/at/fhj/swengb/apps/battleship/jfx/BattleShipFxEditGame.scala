@@ -60,7 +60,6 @@ class BattleShipFxEditGame extends Initializable {
       startDate = game.getDate()
       println(game.getDate()+" "+game.getNumOfShots()+" " + game.getWinner())
       loadGameRoundForPlayer()
-      reloadGrid()
     }
   }
 
@@ -70,15 +69,27 @@ class BattleShipFxEditGame extends Initializable {
 
   def reloadGrid(): Unit = {
 
-    val newgame = game.battleShipGameA.copy(getCellWidth = this.getCellWidth, getCellHeight = this.getCellHeight)
-
-
-    battleGroundGridPane.setDisable(true)
-    battleGroundGridPane.getChildren.clear()
-    for (c <- newgame.getCells) {
-      battleGroundGridPane.add(c, c.pos.x, c.pos.y)
+    if (game.getNumberCurrentPlayers() != null) {
+      if (playerGame == game.battleShipGameA) {
+        println("GRID-Player01")
+        val newgame = game.battleShipGameA.copy(getCellWidth = this.getCellWidth, getCellHeight = this.getCellHeight)
+        battleGroundGridPane.setDisable(true)
+        battleGroundGridPane.getChildren.clear()
+        for (c <- newgame.getCells) {
+          battleGroundGridPane.add(c, c.pos.x, c.pos.y)
+        }
+        newgame.getCells().foreach(c => c.init)
+      } else if (playerGame == game.battleShipGameB) {
+        println("GRID-Player02")
+        val newgame = game.battleShipGameB.copy(getCellWidth = this.getCellWidth, getCellHeight = this.getCellHeight)
+        battleGroundGridPane.setDisable(true)
+        battleGroundGridPane.getChildren.clear()
+        for (c <- newgame.getCells) {
+          battleGroundGridPane.add(c, c.pos.x, c.pos.y)
+        }
+        newgame.getCells().foreach(c => c.init)
+      }
     }
-    newgame.getCells().foreach(c => c.init)
   }
 
   def loadGameRoundForPlayer(): Unit = {
