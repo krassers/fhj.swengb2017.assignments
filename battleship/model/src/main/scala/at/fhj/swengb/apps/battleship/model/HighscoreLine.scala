@@ -1,7 +1,7 @@
 package at.fhj.swengb.apps.battleship.model
 
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.{Calendar, Date}
 import javafx.beans.property.{SimpleIntegerProperty, SimpleStringProperty}
 
 case class HighscoreL(date: Date, winner: String, gameName: String, numShots: Int)
@@ -13,7 +13,7 @@ class HighscoreLine {
   val gameName: SimpleStringProperty = new SimpleStringProperty()
   val numOfShots: SimpleIntegerProperty = new SimpleIntegerProperty()
 
-  def setDate(date: Date): Unit = this.date.set(new SimpleDateFormat("yyyy-MM-dd").format(date))
+  def setDate(date: Date): Unit =  this.date.set(new SimpleDateFormat("yyyy-MM-dd").format(date))
 
   def setWinner(win: String): Unit = this.winner.set(win)
 

@@ -53,30 +53,30 @@
 
             <VBox prefHeight="138.0" prefWidth="120.0" BorderPane.alignment="CENTER">
                 <children>
-                    <RadioButton accessibleRole="TOGGLE_BUTTON" selected="true" text="Submarine (len: 2)" id="1" >
+                    <RadioButton id="1" accessibleRole="TOGGLE_BUTTON" selected="true" text="Submarine (len: 2)">
                        <toggleGroup>
                           <ToggleGroup fx:id="ships" />
                        </toggleGroup>
                   <padding>
                      <Insets bottom="5.0" />
                   </padding></RadioButton>
-                    <RadioButton accessibleRole="TOGGLE_BUTTON" selected="false" text="Submarine (len: 2)" id="2"  toggleGroup="$ships">
+                    <RadioButton id="2" accessibleRole="TOGGLE_BUTTON" selected="false" text="Submarine (len: 2)" toggleGroup="$ships">
                   <padding>
                      <Insets bottom="5.0" />
                   </padding></RadioButton>
-                    <RadioButton accessibleRole="TOGGLE_BUTTON" selected="false" text="Destroyer (len: 3)" id="3" toggleGroup="$ships">
+                    <RadioButton id="3" accessibleRole="TOGGLE_BUTTON" selected="false" text="Destroyer (len: 3)" toggleGroup="$ships">
                   <padding>
                      <Insets bottom="5.0" />
                   </padding></RadioButton>
-                    <RadioButton accessibleRole="TOGGLE_BUTTON" selected="false" text="Destroyer (len: 3)" id="4" toggleGroup="$ships">
+                    <RadioButton id="4" accessibleRole="TOGGLE_BUTTON" selected="false" text="Destroyer (len: 3)" toggleGroup="$ships">
                   <padding>
                      <Insets bottom="5.0" />
                   </padding></RadioButton>
-                    <RadioButton accessibleRole="TOGGLE_BUTTON" selected="false" text="Cruiser (len: 4)" id="5"  toggleGroup="$ships">
+                    <RadioButton id="5" accessibleRole="TOGGLE_BUTTON" selected="false" text="Cruiser (len: 4)" toggleGroup="$ships">
                   <padding>
                      <Insets bottom="5.0" />
                   </padding></RadioButton>
-                    <RadioButton accessibleRole="TOGGLE_BUTTON" selected="false" text="Battleship (len: 5)" id="6"  toggleGroup="$ships">
+                    <RadioButton id="6" accessibleRole="TOGGLE_BUTTON" selected="false" text="Battleship (len: 5)" toggleGroup="$ships">
                   <padding>
                      <Insets bottom="5.0" />
                   </padding></RadioButton>
@@ -99,7 +99,7 @@
                      <Insets left="80.0" top="20.0" />
                   </HBox.margin>
                </ToggleButton>
-                <ToggleButton mnemonicParsing="false" prefHeight="27.0" prefWidth="115.0"  text="Horizontal" toggleGroup="$alignment">
+                <ToggleButton mnemonicParsing="false" prefHeight="27.0" prefWidth="115.0" text="Horizontal" toggleGroup="$alignment">
                   <HBox.margin>
                      <Insets left="10.0" top="20.0" />
                   </HBox.margin></ToggleButton>
@@ -215,7 +215,7 @@
     <bottom>
         <HBox prefHeight="27.0" prefWidth="752.0" styleClass="hbox">
             <HBox prefHeight="27.0" prefWidth="752.0" BorderPane.alignment="BOTTOM_LEFT">
-                <Button id="button" fx:id="nextScreen" onAction="#back" prefHeight="45.0" prefWidth="250.0" styleClass="button" text="back" />
+                <Button id="button" fx:id="nextScreen" onAction="#back" prefHeight="45.0" prefWidth="250.0" styleClass="button" text="back to Home" />
             </HBox>
 
 

@@ -24,6 +24,7 @@ class BattleShipFxHighscore extends Initializable {
   type HighscoreLineTC[T] = TableColumn[HighscoreLine, T]
 
   @FXML private var tableViewHighscore: TableView[HighscoreLine] = _
+
   //@FXML private var btReplay: Button = _
 
   @FXML private var colDate: HighscoreLineTC[String] = _
@@ -94,8 +95,8 @@ object DataSource {
       List[File]()
   }
   print("LALALLALALL:")
-  println(getFiles().map(x => (x.getName, x.lastModified())))
-
+  println(getFiles().map(x => (x.getName, BattleShipFxApp.loadGameState("battleship/"+x.getName).getDate())))
+  println()
   val names = getFiles().map {
     (x => HighscoreL(BattleShipFxApp.loadGameState("battleship/"+x.getName).getDate(),
                      BattleShipFxApp.loadGameState("battleship/"+x.getName).getWinner(),

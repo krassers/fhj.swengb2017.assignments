@@ -8,6 +8,7 @@ import javafx.stage.Stage
 import scala.util.{Failure, Success, Try}
 import java.io.IOException
 import java.nio.file.{Files, Paths, StandardOpenOption}
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import javafx.scene.control.ProgressBar
 import javafx.scene.image.ImageView
@@ -170,7 +171,6 @@ object BattleShipFxApp {
   def loadGameState(fname: String): GameRound = {
     filename = fname
     val reload = BattleShipProtobuf.Game.parseFrom(Files.newInputStream(Paths.get(filename)))
-
     val gameWithOldValues = GameRound(convert(reload).playerA,
       convert(reload).playerB,
       convert(reload).gameName,
@@ -178,10 +178,13 @@ object BattleShipFxApp {
       convert(reload).battleShipGameA,
       convert(reload).battleShipGameB)
 
-
     gameWithOldValues.battleShipGameA.gameState = convert(reload).battleShipGameA.gameState
     gameWithOldValues.battleShipGameB.gameState = convert(reload).battleShipGameB.gameState
-
+    gameWithOldValues.setWinner(reload.getWinner)
+    val sdf = new SimpleDateFormat("yyyy-MM-dd")
+    val date = sdf.parse(reload.getStartDate)
+    gameWithOldValues.setDate(date)
+    gameWithOldValues.setNumberCurrentPlayers(reload.getNumOfShots)
     gameWithOldValues
   }
 

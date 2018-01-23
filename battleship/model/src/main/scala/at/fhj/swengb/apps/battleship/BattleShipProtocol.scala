@@ -68,7 +68,6 @@ object BattleShipProtocol {
       val date = sdf.parse(g.getStartDate)
       round.setDate(date)
       round.setNumOfShots(g.getNumOfShots)
-
       round
     }
 

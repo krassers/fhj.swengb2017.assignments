@@ -125,7 +125,7 @@ class BattleShipFxEditGame extends Initializable {
   }
 
   def backToHome(): Unit = {
-    BattleShipFxApp.display(BattleShipFxApp.loadNewGame, BattleShipFxApp.loadMain)
+    BattleShipFxApp.display(BattleShipFxApp.loadWelcome, BattleShipFxApp.loadMain)
   }
 
   /**
