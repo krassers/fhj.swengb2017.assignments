@@ -1,7 +1,7 @@
 package at.fhj.swengb.apps.battleship.jfx
 
 import java.net.URL
-import java.util.ResourceBundle
+import java.util.{Date, ResourceBundle}
 import javafx.fxml.{FXML, Initializable}
 import javafx.scene.Scene
 import javafx.scene.control.Alert.AlertType
@@ -40,6 +40,7 @@ class BattleShipFxEditGame extends Initializable {
 
   var checksum: Int = _
   var shipPosition = Map[Int,BattlePos]()
+  var startDate: Date = _
 
   @FXML
   def back(): Unit = backToHome()
@@ -56,6 +57,8 @@ class BattleShipFxEditGame extends Initializable {
       game = BattleShipFxApp.getGameRound()
       filename = BattleShipFxApp.getFilename()
       numberPlayers = game.getNumberCurrentPlayers()
+      startDate = game.getDate()
+      println(game.getDate()+" "+game.getNumOfShots()+" " + game.getWinner())
       loadGameRoundForPlayer()
       reloadGrid()
     }
@@ -104,6 +107,9 @@ class BattleShipFxEditGame extends Initializable {
       //is ok
       println(game.battleShipGameA.gameState)
       println(game)
+      game.resetNumberofShots()
+      game.setWinner("")
+      game.setDate(startDate)
       BattleShipFxApp.setGameRound(game)
       BattleShipFxApp.setFilename(filename)
       BattleShipFxApp.saveGameState(filename)
@@ -170,6 +176,9 @@ class BattleShipFxEditGame extends Initializable {
         }
         //checksum for start game -> also reduced by length
         checksum -= len
+        game.resetNumberofShots()
+        game.setWinner("")
+        game.setDate(startDate)
         // set back id -> that we can place it again ;)
         actShip.setId(actShip.getId.head.toString)
         reloadGrid()
@@ -286,7 +295,11 @@ class BattleShipFxEditGame extends Initializable {
               // also update player game
               playerGame = game.battleShipGameB
             }
+            game.resetNumberofShots()
+            game.setWinner("")
+            game.setDate(startDate)
             BattleShipFxApp.setGameRound(game)
+            println("SETZEN: " + game.getDate() + game.getNumOfShots() )
             BattleShipFxApp.saveGameState(filename)
 
             // set id > 28 --> that we know if the ship was already set

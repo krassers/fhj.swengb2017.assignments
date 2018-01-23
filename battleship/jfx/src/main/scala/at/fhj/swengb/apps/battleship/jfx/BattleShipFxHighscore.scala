@@ -32,7 +32,7 @@ class BattleShipFxHighscore extends Initializable {
   @FXML private var colNumOfMoves: HighscoreLineTC[Int] = _
   //@FXML private var colReplay: Button = _
 
-  val lines = mkObservableList(DataSource.data.map(HighscoreLine(_)))
+  val lines = mkObservableList(DataSource.names.map(HighscoreLine(_)))
 
     /**
       * Change Scene to Game scene
@@ -97,10 +97,10 @@ object DataSource {
   println(getFiles().map(x => (x.getName, x.lastModified())))
 
   val names = getFiles().map {
-    (x => HighscoreL(BattleShipFxApp.loadGameState(x.getName).getDate(),
-                     BattleShipFxApp.loadGameState(x.getName).getWinner(),
-                     BattleShipFxApp.loadGameState(x.getName).gameName,
-                     BattleShipFxApp.loadGameState(x.getName).getNumOfShots() ))
+    (x => HighscoreL(BattleShipFxApp.loadGameState("battleship/"+x.getName).getDate(),
+                     BattleShipFxApp.loadGameState("battleship/"+x.getName).getWinner(),
+                     BattleShipFxApp.loadGameState("battleship/"+x.getName).gameName,
+                     BattleShipFxApp.loadGameState("battleship/"+x.getName).getNumOfShots() ))
   }
   val data =
     (0 to getFiles().size) map {

@@ -18,7 +18,7 @@ object BattleShipProtocol {
       .setPlayerA(g.playerA)
       .setPlayerB(g.playerB)
       .setNumOfShots(g.getNumOfShots())
-      .setStartDate(g.getDate().toString)
+      .setStartDate(new SimpleDateFormat("yyyy-MM-dd").format(g.getDate()))
       .setWinner(g.getWinner()).build()
   }
 
@@ -64,7 +64,8 @@ object BattleShipProtocol {
   def convert(g: BattleShipProtobuf.Game) : GameRound = {
       val round = GameRound(g.getPlayerA, g.getPlayerB, g.getGameName, x=>(), convert(g.getGameA), convert(g.getGameB))
       round.setWinner(g.getWinner)
-      val date = new Date(g.getStartDate)
+      val sdf = new SimpleDateFormat("yyyy-MM-dd")
+      val date = sdf.parse(g.getStartDate)
       round.setDate(date)
       round.setNumOfShots(g.getNumOfShots)
 

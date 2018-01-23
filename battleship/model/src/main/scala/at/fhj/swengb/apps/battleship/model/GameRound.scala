@@ -16,6 +16,7 @@ case class GameRound(playerA: String,
   private var currentPlayer: String = _
   private var numOfShots: Int = _
   private var playDate: Date = _
+
   /*private val = battleShipGameA = createGame(playerA, getCellWidth, getCellHeight, log)
   private val = battleShipGameB = createGame(playerB, getCellWidth, getCellHeight, log)
 
