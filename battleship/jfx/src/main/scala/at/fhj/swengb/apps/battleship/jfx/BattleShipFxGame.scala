@@ -1,10 +1,11 @@
 package at.fhj.swengb.apps.battleship.jfx
 
-import javafx.scene.control.{Button, TextArea}
+import javafx.scene.control.{Alert, Button, TextArea}
 import java.net.URL
 import java.nio.file.{Files, Paths}
 import java.util.{Calendar, Date, ResourceBundle}
 import javafx.fxml.{FXML, Initializable}
+import javafx.scene.control.Alert.AlertType
 import javafx.scene.layout.GridPane
 import javafx.scene.text.Text
 
@@ -22,6 +23,8 @@ class BattleShipFxGame extends Initializable {
   private var currentPlayer: String = _
   private var date: Date = _
   private var numShots: Int = _
+  private var gameState: String = _
+
   /*private var newBsGameA: BattleShipGame = _
   private var newBsGameB: BattleShipGame = _*/
   @FXML private var btsave: Button = _
@@ -35,6 +38,8 @@ class BattleShipFxGame extends Initializable {
   @FXML private var headline: Text = _
 
   @FXML private var playerTurn: Text = _
+
+  @FXML private var state: TextArea = _
 
   @FXML
   def giveUp(): Unit = {
@@ -77,7 +82,6 @@ class BattleShipFxGame extends Initializable {
     *
     */
 
-  // TODO Hide enemy battlefield
   // TODO Implement GameState
 
   def init(game: GameRound): Unit = {
@@ -92,6 +96,9 @@ class BattleShipFxGame extends Initializable {
     round.setWinner("")
     BattleShipFxApp.setGameRound(round)
     gameRound = BattleShipFxApp.getGameRound()
+    gameState = currentPlayer ++ " " ++ "turn"
+    gameRound.setGameState(gameState)
+    state.appendText(gameState)
 
     ownGridPane.setDisable(true)
     println("init: -------- " ++ game.getNumberCurrentPlayers.toString)
@@ -189,11 +196,12 @@ class BattleShipFxGame extends Initializable {
     } else if(numberPlayers==2) {
       headline.setText(gameRound.playerB ++ " " ++ "@" ++ gameRound.gameName ++ " " ++ "vs" ++ " " ++ gameRound.playerA)
     }
-
-      if(currentPlayer.takeRight(1) != "s")
+    if(currentPlayer != null) {
+      if (currentPlayer.takeRight(1) != "s")
         playerTurn.setText(currentPlayer ++ "'" ++ "s" ++ " " ++ "turn")
       else
         playerTurn.setText(currentPlayer ++ "'" ++ " " ++ "turn")
+    }
   }
 
   /*def saveGameState(): Unit = {
@@ -229,32 +237,39 @@ class BattleShipFxGame extends Initializable {
   def saveGameState(): Unit = {
 
 
-      if (currentPlayer == gameRound.playerA) {
-        gameRound.setCurrentPlayer(gameRound.playerB)
-        currentPlayer = gameRound.playerB
-      }
-      else {
-        gameRound.setCurrentPlayer(gameRound.playerA)
-        currentPlayer = gameRound.playerA
+    if (currentPlayer == gameRound.playerA) {
+      gameRound.setCurrentPlayer(gameRound.playerB)
+      currentPlayer = gameRound.playerB
+    }
+    else {
+      gameRound.setCurrentPlayer(gameRound.playerA)
+      currentPlayer = gameRound.playerA
 
-      }
-      setLabels()
-      if (numberPlayers == 1) {
-        enemyGridPane.setDisable(true)
-        btsave.setDisable(true)
-      } else if (numberPlayers == 2) {
-        enemyGridPane.setDisable(true)
-        btsave.setDisable(true)
-      }
+    }
+    setLabels()
+    if (numberPlayers == 1) {
+      enemyGridPane.setDisable(true)
+      btsave.setDisable(true)
+    } else if (numberPlayers == 2) {
+      enemyGridPane.setDisable(true)
+      btsave.setDisable(true)
+    }
 
-      gameRound.setDate(date)
-      gameRound.incNumOfShots()
-      gameRound.setWinner("")
-      BattleShipFxApp.saveGameState(fileName)
-      appendLog("Saved the game")
+    // Set text for gameState
+    gameState = currentPlayer ++ " " ++ "turn"
+    gameRound.setGameState(gameState)
+    state.clear()
+    state.appendText(gameState)
+
+    gameRound.setDate(date)
+    gameRound.incNumOfShots()
+    gameRound.setWinner("")
+    BattleShipFxApp.saveGameState(fileName)
+    appendLog("Saved the game")
   }
 
   def loadGameState(): Unit = {
+
       val reload = BattleShipProtobuf.Game.parseFrom(Files.newInputStream(Paths.get(fileName)))
       println("loadGameState: ---------------- " ++ fileName)
       val gameWithOldValues = GameRound(convert(reload).playerA,
@@ -266,24 +281,40 @@ class BattleShipFxGame extends Initializable {
 
       val newGameOldValues = gameWithOldValues.copy(battleShipGameA = gameWithOldValues.battleShipGameA.copy(getCellWidth = this.getCellWidth, getCellHeight = this.getCellHeight, log = appendLog),
         battleShipGameB = gameWithOldValues.battleShipGameB.copy(getCellWidth = this.getCellWidth, getCellHeight = this.getCellHeight, log = appendLog))
-
+    //currentPlayer = gameRound.getCurrentPlayer()
+    if(currentPlayer == gameRound.getCurrentPlayer()) {
+      if(currentPlayer != null)
+        println("LoadGameState ------------------ " ++ currentPlayer)
       newGameOldValues.battleShipGameA.gameState = convert(reload).battleShipGameA.gameState
       newGameOldValues.battleShipGameB.gameState = convert(reload).battleShipGameB.gameState
 
       initAfterReload(newGameOldValues)
       newGameOldValues.battleShipGameA.update(gameRound.battleShipGameA.gameState.length)
       newGameOldValues.battleShipGameB.update(gameRound.battleShipGameB.gameState.length)
+
+      if (newGameOldValues.getGameState() != null) {
+        gameState = newGameOldValues.getGameState()
+        if (!state.getText.isEmpty)
+          state.clear()
+        state.appendText(gameState)
+      }
+
       appendLog("Loaded the game")
-      if (currentPlayer == reload.getPlayerA) {
-        currentPlayer = reload.getPlayerB
+
+      btsave.setDisable(false)
+      if (currentPlayer == newGameOldValues.getCurrentPlayer()) {
+        currentPlayer = newGameOldValues.playerB
+        gameRound.setCurrentPlayer(currentPlayer)
         //lockplayer A
         if (numberPlayers == 1) {
           enemyGridPane.setDisable(false)
           btsave.setDisable(false)
           //btload.setDisable(true)
         }
-      } else {
-        currentPlayer = reload.getPlayerA
+      }
+      else {
+        currentPlayer = newGameOldValues.playerA
+        gameRound.setCurrentPlayer(currentPlayer)
         //lockplayer B
         if (numberPlayers == 2) {
           enemyGridPane.setDisable(false)
@@ -291,10 +322,17 @@ class BattleShipFxGame extends Initializable {
           //btload.setDisable(true)
         }
       }
-      numShots = reload.getNumOfShots()
+      numShots = newGameOldValues.getNumOfShots()
       setLabels()
     }
-
+    else alert(AlertType.WARNING,"Not your turn", "It's not your turn yet\nPlease wait for the other player to finish")
+  }
+  def alert(alertType: AlertType,title: String, text: String): Unit ={
+    val al = new Alert(alertType);
+    al.setTitle(title)
+    al.setContentText(text)
+    al.showAndWait()
+  }
 
 }
 

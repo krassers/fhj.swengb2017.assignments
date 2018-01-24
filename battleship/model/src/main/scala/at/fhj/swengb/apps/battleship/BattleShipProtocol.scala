@@ -19,7 +19,9 @@ object BattleShipProtocol {
       .setPlayerB(g.playerB)
       .setNumOfShots(g.getNumOfShots())
       .setStartDate(new SimpleDateFormat("yyyy-MM-dd").format(g.getDate()))
-      .setWinner(g.getWinner()).build()
+      .setWinner(g.getWinner())
+      .setGameState(g.getGameState())
+      .setCurrentPlayer(g.getCurrentPlayer()).build()
   }
 
   def convert(g: BattleShipGame): BattleShipProtobuf.Game.BattleShipGame = {
@@ -62,14 +64,16 @@ object BattleShipProtocol {
 
   // Convert back
   def convert(g: BattleShipProtobuf.Game) : GameRound = {
-      val round = GameRound(g.getPlayerA, g.getPlayerB, g.getGameName, x=>(), convert(g.getGameA), convert(g.getGameB))
-      round.setWinner(g.getWinner)
-      val sdf = new SimpleDateFormat("yyyy-MM-dd")
-      val date = sdf.parse(g.getStartDate)
-      round.setDate(date)
-      round.setNumOfShots(g.getNumOfShots)
-      round
-    }
+    val round = GameRound(g.getPlayerA, g.getPlayerB, g.getGameName, x=>(), convert(g.getGameA), convert(g.getGameB))
+    round.setWinner(g.getWinner)
+    val sdf = new SimpleDateFormat("yyyy-MM-dd")
+    val date = sdf.parse(g.getStartDate)
+    round.setDate(date)
+    round.setNumOfShots(g.getNumOfShots)
+    round.setGameState(g.getGameState)
+    round.setCurrentPlayer(g.getCurrentPlayer)
+    round
+  }
 
   def convert(g: BattleShipProtobuf.Game.Vessel): Vessel = {
     val direction = {

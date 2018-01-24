@@ -69,7 +69,7 @@
 
 
             <VBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                <TextField prefHeight="170.0" prefWidth="120.0" text="" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                <TextArea fx:id="state" prefHeight="170.0" prefWidth="120.0"  GridPane.columnIndex="3" GridPane.rowIndex="2" />
 
             <VBox.margin>
                <Insets left="30.0" />

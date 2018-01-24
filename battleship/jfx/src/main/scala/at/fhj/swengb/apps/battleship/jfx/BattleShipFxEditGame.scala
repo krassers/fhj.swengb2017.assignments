@@ -297,7 +297,7 @@ class BattleShipFxEditGame extends Initializable {
         }
         else{
           //println("DEBUG: add new " + v.name + " at:" + pos.x + "/" + pos.y + " dir:" + actAlignment.getText + " len:" +len)
-          var newfield = playerGame.battleField.addAtPosition(v)
+          var newfield = playerGame.battleField.addAtRandomPosition(v)
 
           // check if there are changes
           if(newfield != playerGame.battleField){
@@ -324,7 +324,7 @@ class BattleShipFxEditGame extends Initializable {
             game.resetNumberofShots()
             game.setWinner("")
             game.setDate(startDate)
-
+            game.setGameState("")
             //println("SETZEN: " + game.getDate() + game.getNumOfShots() )
             BattleShipFxApp.setGameRound(game)
             BattleShipFxApp.setFilename(filename)

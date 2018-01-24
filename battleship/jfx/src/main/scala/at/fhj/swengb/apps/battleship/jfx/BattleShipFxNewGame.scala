@@ -88,7 +88,7 @@ class BattleShipFxNewGame extends Initializable {
    BattleShipFxApp.setGameRound(game)
    BattleShipFxApp.setFilename("battleship/" + filename)
    //println("filename for new: " + filename)
-   
+   game.setGameState("")
    BattleShipFxApp.saveGameState("battleship/" + filename)
    BattleShipFxApp.loadFxmlEditMode()
    BattleShipFxApp.display(BattleShipFxApp.loadEditGame,BattleShipFxApp.loadMain)
