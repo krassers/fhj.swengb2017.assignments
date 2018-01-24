@@ -9,20 +9,6 @@
 <?import javafx.scene.text.Text?>
 
 <BorderPane prefHeight="700.0" prefWidth="1000.0" styleClass="grid_welcome" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.fhj.swengb.apps.battleship.jfx.BattleShipFxCredits">
-    <top>
-        <HBox alignment="CENTER" prefHeight="27.0" styleClass="hbox">
-            <Text fill="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="Credits">
-                <font>
-                    <Font name="Roboto Medium" size="56.0" />
-                </font>
-                <HBox.margin>
-                    <Insets top="30.0" />
-                </HBox.margin>
-            </Text>
-
-        </HBox>
-
-    </top>
 
 
     <left>
@@ -98,35 +84,31 @@
 
     </left>
 
-
-    <right>
-        <VBox prefHeight="600.0" prefWidth="400.0" BorderPane.alignment="BOTTOM_RIGHT">
-
-            <HBox prefHeight="50.0" prefWidth="400.0" BorderPane.alignment="CENTER" />
-
-            <Text fill="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="© spitzeEisbären" textAlignment="CENTER">
-
-                <font>
-                    <Font name="Roboto Medium" size="40.0" />
-                </font>
-                <VBox.margin>
-                    <Insets top="470.0" />
-                </VBox.margin>
-
-            </Text>
-        </VBox>
-    </right>
-
-
-
     <bottom>
+        <HBox alignment="CENTER" styleClass="hbox">
+            <HBox prefHeight="27.0" prefWidth="752.0" BorderPane.alignment="BOTTOM_LEFT">
+                <Button id="button" onAction="#back" prefHeight="35.0" prefWidth="170.0" styleClass="button" text="back" />
+            </HBox>
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="27.0" prefWidth="752.0" BorderPane.alignment="BOTTOM_RIGHT">
+                <Button onAction="#openLicense" prefHeight="35.0" prefWidth="170.0" styleClass="button" text="© spitzeEisbären" />
+            </HBox>
 
-        <HBox prefHeight="27.0" prefWidth="250.0" styleClass="hbox" BorderPane.alignment="BOTTOM_LEFT">
-            <Button id="button" fx:id="nextScreen" onAction="#back" prefHeight="35.0" prefWidth="170.0" styleClass="button" text="back" />
         </HBox>
     </bottom>
+    <top>
+        <HBox alignment="CENTER" prefHeight="27.0" styleClass="hbox" BorderPane.alignment="CENTER">
+            <Text fill="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="Credits">
+                <font>
+                    <Font name="Roboto Medium" size="56.0" />
+                </font>
+                <HBox.margin>
+                    <Insets top="30.0" />
+                </HBox.margin>
+            </Text>
+
+        </HBox>
+    </top>
 
 
 
 </BorderPane>
-

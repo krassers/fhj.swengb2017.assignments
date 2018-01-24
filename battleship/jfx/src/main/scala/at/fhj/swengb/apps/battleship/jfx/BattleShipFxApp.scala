@@ -78,6 +78,7 @@ object BattleShipFxApp {
   private var credits: Scene = _
   private var join: Scene = _
   private var game: Scene = _
+  private var license: Scene = _
 
 
   def loadMain: Stage = main
@@ -89,6 +90,7 @@ object BattleShipFxApp {
   def loadCredits: Scene = credits
   def loadJoin: Scene = join
   def loadGame: Scene = game
+  def loadLicense: Scene = license
 
   val css = "/at/fhj/swengb/apps/battleship/jfx/battleship.css"
 
@@ -98,9 +100,8 @@ object BattleShipFxApp {
     splash = load("/at/fhj/swengb/apps/battleship/jfx/splash.fxml")
     welcome = load("/at/fhj/swengb/apps/battleship/jfx/welcome_screen.fxml")
     newGame = load("/at/fhj/swengb/apps/battleship/jfx/new_game.fxml")
-
-    highscore = load("/at/fhj/swengb/apps/battleship/jfx/highscore_screen.fxml")
     credits = load("/at/fhj/swengb/apps/battleship/jfx/credit_screen.fxml")
+    license = load("/at/fhj/swengb/apps/battleship/jfx/license_screen.fxml")
 
   }
 
@@ -114,6 +115,10 @@ object BattleShipFxApp {
 
   def loadFxmlJoinMode(): Unit = {
     join = load("/at/fhj/swengb/apps/battleship/jfx/join_screen.fxml")
+  }
+
+  def loadFxmlHighscore(): Unit = {
+    highscore = load("/at/fhj/swengb/apps/battleship/jfx/highscore_screen.fxml")
   }
 
   private def load(file: String): Scene = {

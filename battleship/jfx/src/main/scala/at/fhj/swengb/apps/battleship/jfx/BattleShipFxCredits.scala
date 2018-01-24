@@ -13,6 +13,10 @@ class BattleShipFxCredits extends Initializable {
   BattleShipFxApp.display(BattleShipFxApp.loadWelcome,BattleShipFxApp.loadMain)
  }
 
+ @FXML def openLicense(): Unit = {
+  BattleShipFxApp.display(BattleShipFxApp.loadLicense,BattleShipFxApp.loadMain)
+ }
+
 
  override def initialize(location: URL, resources: ResourceBundle): Unit = {
 

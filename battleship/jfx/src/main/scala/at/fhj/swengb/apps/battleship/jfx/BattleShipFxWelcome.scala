@@ -14,7 +14,7 @@ import at.fhj.swengb.apps.battleship.BattleShipProtobuf
 import at.fhj.swengb.apps.battleship.BattleShipProtocol._
 import at.fhj.swengb.apps.battleship.model._
 import javafx.scene.layout.Pane
-import java.io.IOException
+import java.io.{File, IOException}
 import java.util.ResourceBundle
 import javafx.scene.{Parent, Scene}
 
@@ -27,11 +27,13 @@ class BattleShipFxWelcome extends Initializable {
   }
 
   @FXML def join(): Unit = {
-    BattleShipFxApp.loadFxmlJoinMode()
-    BattleShipFxApp.display(BattleShipFxApp.loadJoin,BattleShipFxApp.loadMain)
+    init()
+    BattleShipFxApp.loadFxmlEditMode()
+    BattleShipFxApp.display(BattleShipFxApp.loadEditGame,BattleShipFxApp.loadMain)
   }
 
   @FXML def highscore(): Unit = {
+    BattleShipFxApp.loadFxmlHighscore()
     BattleShipFxApp.display(BattleShipFxApp.loadHighscore,BattleShipFxApp.loadMain)
   }
 
@@ -39,11 +41,33 @@ class BattleShipFxWelcome extends Initializable {
     BattleShipFxApp.display(BattleShipFxApp.loadCredits,BattleShipFxApp.loadMain)
   }
 
-
-
-
+  
   override def initialize(location: URL, resources: ResourceBundle): Unit = {
 
+  }
+
+  def getFiles(): List[File] = {
+    val d = new File("battleship")
+    if (d.exists && d.isDirectory)
+      d.listFiles.filter(x => x.isFile && x.getName.contains(".bin")).toList
+    else
+      List[File]()
+
+  }
+
+  def init(): Unit = {
+    val files = getFiles()
+    val names = files.map(x => (x.getName, x.lastModified()))
+    val recentGame = names.max
+    val filename = "battleship/"++recentGame._1
+    BattleShipFxApp.setFilename(filename)
+
+    val gameRound = BattleShipFxApp.loadGameState(filename)
+    gameRound.setNumberCurrentPlayers(2)
+    BattleShipFxApp.setGameRound(gameRound)
+
+
+    println(recentGame)
   }
 
 }

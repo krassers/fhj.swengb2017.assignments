@@ -141,6 +141,8 @@ class BattleShipFxEditGame extends Initializable {
   def backToHome(): Unit = {
     alert(AlertType.INFORMATION,"Information", "Actual game state will be saved! Going to Menu")
     game.setNumberCurrentPlayers(game.getNumberCurrentPlayers()-1)
+    game.setGameState("")
+    game.setCurrentPlayer("")
     BattleShipFxApp.setGameRound(game)
     BattleShipFxApp.setFilename(filename)
     BattleShipFxApp.saveGameState(filename)
