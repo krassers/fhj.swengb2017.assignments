@@ -16,6 +16,15 @@ import at.fhj.swengb.apps.battleship.model._
 class BattleShipFxGame extends Initializable {
 
 
+  private var gameRound: GameRound = _
+  private var fileName: String = _
+  private var numberPlayers: Int = _
+  private var currentPlayer: String = _
+  private var date: Date = _
+  private var numShots: Int = _
+  /*private var newBsGameA: BattleShipGame = _
+  private var newBsGameB: BattleShipGame = _*/
+
   @FXML private var ownGridPane: GridPane = _
 
   @FXML private var enemyGridPane: GridPane = _
@@ -28,6 +37,12 @@ class BattleShipFxGame extends Initializable {
 
   @FXML
   def giveUp(): Unit = {
+    //alert(AlertType.INFORMATION,"Information", "Actual game state will be saved! Going to Menu")
+    gameRound.setNumberCurrentPlayers(gameRound.getNumberCurrentPlayers()-1)
+    gameRound.setWinner(gameRound.playerB+" (give up)")
+    BattleShipFxApp.setGameRound(gameRound)
+    BattleShipFxApp.setFilename(fileName)
+    BattleShipFxApp.saveGameState(fileName)
     BattleShipFxApp.display(BattleShipFxApp.loadWelcome,BattleShipFxApp.loadMain)
   }
 
@@ -45,14 +60,7 @@ class BattleShipFxGame extends Initializable {
 
   def appendLog(message: String): Unit = log.appendText(message + "\n")
 
-  private var gameRound: GameRound = _
-  private val fileName: String = BattleShipFxApp.getFilename()
-  private var numberPlayers: Int = _
-  private var currentPlayer: String = _
-  private var date: Date = _
-  private var numShots: Int = _
-  /*private var newBsGameA: BattleShipGame = _
-  private var newBsGameB: BattleShipGame = _*/
+
 
   def save(): Unit = saveGameState()
 
@@ -97,7 +105,7 @@ class BattleShipFxGame extends Initializable {
       for (c <- newBsGameB.getCells) {
         enemyGridPane.add(c, c.pos.x, c.pos.y)
       }
-      //newBsGameB.getCells().foreach(c => c.init)
+      newBsGameB.getCells().foreach(c => c.init)
     }
     else if(game.getNumberCurrentPlayers() == 2) {
       ownGridPane.getChildren.clear()
@@ -111,12 +119,11 @@ class BattleShipFxGame extends Initializable {
       for (c <- newBsGameA.getCells) {
         enemyGridPane.add(c, c.pos.x, c.pos.y)
       }
-      //newBsGameA.getCells().foreach(c => c.init)
+      newBsGameA.getCells().foreach(c => c.init)
     }
   }
 
   def initAfterReload(game: GameRound): Unit = {
-
     setLabels()
     game.setDate(date)
     game.setNumOfShots(numShots)
@@ -162,23 +169,30 @@ class BattleShipFxGame extends Initializable {
     if(BattleShipFxApp.getGameRound() != null) {
 
       gameRound = BattleShipFxApp.getGameRound()
+      fileName = BattleShipFxApp.getFilename()
       numberPlayers = gameRound.getNumberCurrentPlayers()
       gameRound.setCurrentPlayer(gameRound.playerA)
       currentPlayer = gameRound.getCurrentPlayer()
       date = gameRound.getDate()
       numShots = 10
-
+      println(currentPlayer + " " + gameRound)
       init(gameRound)
       appendLog("New game started.")
+      //loadGameState()
     }
   }
 
   def setLabels(): Unit = {
-    headline.setText(gameRound.playerA ++ " " ++ "@" ++ gameRound.gameName ++ " " ++ "vs" ++ " " ++ gameRound.playerB)
-    if(currentPlayer.takeRight(1) != "s")
-      playerTurn.setText(currentPlayer ++ "'" ++ "s" ++ " " ++ "turn")
-    else
-      playerTurn.setText(currentPlayer ++ "'" ++ " " ++ "turn")
+    if(numberPlayers==1){
+      headline.setText(gameRound.playerA ++ " " ++ "@" ++ gameRound.gameName ++ " " ++ "vs" ++ " " ++ gameRound.playerB)
+    } else if(numberPlayers==2) {
+      headline.setText(gameRound.playerB ++ " " ++ "@" ++ gameRound.gameName ++ " " ++ "vs" ++ " " ++ gameRound.playerA)
+    }
+
+      if(currentPlayer.takeRight(1) != "s")
+        playerTurn.setText(currentPlayer ++ "'" ++ "s" ++ " " ++ "turn")
+      else
+        playerTurn.setText(currentPlayer ++ "'" ++ " " ++ "turn")
   }
 
   /*def saveGameState(): Unit = {
@@ -222,12 +236,12 @@ class BattleShipFxGame extends Initializable {
 
     }
     setLabels()
+
     gameRound.setDate(date)
-    gameRound.setNumOfShots(numShots)
+    gameRound.incNumOfShots()
     gameRound.setWinner("")
     BattleShipFxApp.saveGameState(fileName)
     appendLog("Saved the game")
-
   }
 
   def loadGameState(): Unit = {
@@ -251,6 +265,13 @@ class BattleShipFxGame extends Initializable {
     newGameOldValues.battleShipGameA.update(gameRound.battleShipGameA.gameState.length)
     newGameOldValues.battleShipGameB.update(gameRound.battleShipGameB.gameState.length)
     appendLog("Loaded the game")
+    if(currentPlayer == reload.getPlayerA){
+      currentPlayer = reload.getPlayerB
+    }else{
+      currentPlayer = reload.getPlayerA
+    }
+    numShots = reload.getNumOfShots()
+    setLabels()
   }
 
 
