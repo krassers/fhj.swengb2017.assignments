@@ -217,9 +217,9 @@
     <bottom>
         <HBox prefHeight="27.0" prefWidth="752.0" styleClass="hbox">
             <HBox prefHeight="27.0" prefWidth="752.0" BorderPane.alignment="BOTTOM_LEFT">
-                <Button fx:id="nextScreen" onAction="#giveUp" prefHeight="35.0" prefWidth="170.0" styleClass="button" text="Give up" />
-                <Button fx:id="save" onAction="#save" prefHeight="35.0" prefWidth="170.0" styleClass="button" text="Save" />
-                <Button fx:id="load" onAction="#load" prefHeight="35.0" prefWidth="170.0" styleClass="button" text="Load" />
+                <Button fx:id="btnextScreen" onAction="#giveUp" prefHeight="35.0" prefWidth="170.0" styleClass="button" text="Give up" />
+                <Button fx:id="btsave" onAction="#save" prefHeight="35.0" prefWidth="170.0" styleClass="button" text="Save" />
+                <Button fx:id="btload" onAction="#load" prefHeight="35.0" prefWidth="170.0" styleClass="button" text="Load" />
             </HBox>
 
         </HBox>

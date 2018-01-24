@@ -1,6 +1,6 @@
 package at.fhj.swengb.apps.battleship.jfx
 
-import javafx.scene.control.TextArea
+import javafx.scene.control.{Button, TextArea}
 import java.net.URL
 import java.nio.file.{Files, Paths}
 import java.util.{Calendar, Date, ResourceBundle}
@@ -24,7 +24,8 @@ class BattleShipFxGame extends Initializable {
   private var numShots: Int = _
   /*private var newBsGameA: BattleShipGame = _
   private var newBsGameB: BattleShipGame = _*/
-
+  @FXML private var btsave: Button = _
+  @FXML private var btload: Button = _
   @FXML private var ownGridPane: GridPane = _
 
   @FXML private var enemyGridPane: GridPane = _
@@ -226,53 +227,73 @@ class BattleShipFxGame extends Initializable {
   }*/
 
   def saveGameState(): Unit = {
-    if(currentPlayer == gameRound.playerA) {
-      gameRound.setCurrentPlayer(gameRound.playerB)
-      currentPlayer = gameRound.playerB
-    }
-    else {
-      gameRound.setCurrentPlayer(gameRound.playerA)
-      currentPlayer = gameRound.playerA
 
-    }
-    setLabels()
 
-    gameRound.setDate(date)
-    gameRound.incNumOfShots()
-    gameRound.setWinner("")
-    BattleShipFxApp.saveGameState(fileName)
-    appendLog("Saved the game")
+      if (currentPlayer == gameRound.playerA) {
+        gameRound.setCurrentPlayer(gameRound.playerB)
+        currentPlayer = gameRound.playerB
+      }
+      else {
+        gameRound.setCurrentPlayer(gameRound.playerA)
+        currentPlayer = gameRound.playerA
+
+      }
+      setLabels()
+      if (numberPlayers == 1) {
+        enemyGridPane.setDisable(true)
+        btsave.setDisable(true)
+      } else if (numberPlayers == 2) {
+        enemyGridPane.setDisable(true)
+        btsave.setDisable(true)
+      }
+
+      gameRound.setDate(date)
+      gameRound.incNumOfShots()
+      gameRound.setWinner("")
+      BattleShipFxApp.saveGameState(fileName)
+      appendLog("Saved the game")
   }
 
   def loadGameState(): Unit = {
+      val reload = BattleShipProtobuf.Game.parseFrom(Files.newInputStream(Paths.get(fileName)))
+      println("loadGameState: ---------------- " ++ fileName)
+      val gameWithOldValues = GameRound(convert(reload).playerA,
+        convert(reload).playerB,
+        convert(reload).gameName,
+        x => (),
+        convert(reload).battleShipGameA,
+        convert(reload).battleShipGameB)
 
-    val reload = BattleShipProtobuf.Game.parseFrom(Files.newInputStream(Paths.get(fileName)))
-    println("loadGameState: ---------------- " ++ fileName)
-    val gameWithOldValues = GameRound(convert(reload).playerA,
-      convert(reload).playerB,
-      convert(reload).gameName,
-      x=>(),
-      convert(reload).battleShipGameA,
-      convert(reload).battleShipGameB)
+      val newGameOldValues = gameWithOldValues.copy(battleShipGameA = gameWithOldValues.battleShipGameA.copy(getCellWidth = this.getCellWidth, getCellHeight = this.getCellHeight, log = appendLog),
+        battleShipGameB = gameWithOldValues.battleShipGameB.copy(getCellWidth = this.getCellWidth, getCellHeight = this.getCellHeight, log = appendLog))
 
-    val newGameOldValues = gameWithOldValues.copy(battleShipGameA = gameWithOldValues.battleShipGameA.copy(getCellWidth = this.getCellWidth, getCellHeight = this.getCellHeight, log = appendLog),
-      battleShipGameB = gameWithOldValues.battleShipGameB.copy(getCellWidth = this.getCellWidth, getCellHeight = this.getCellHeight, log = appendLog))
+      newGameOldValues.battleShipGameA.gameState = convert(reload).battleShipGameA.gameState
+      newGameOldValues.battleShipGameB.gameState = convert(reload).battleShipGameB.gameState
 
-    newGameOldValues.battleShipGameA.gameState = convert(reload).battleShipGameA.gameState
-    newGameOldValues.battleShipGameB.gameState = convert(reload).battleShipGameB.gameState
-
-    initAfterReload(newGameOldValues)
-    newGameOldValues.battleShipGameA.update(gameRound.battleShipGameA.gameState.length)
-    newGameOldValues.battleShipGameB.update(gameRound.battleShipGameB.gameState.length)
-    appendLog("Loaded the game")
-    if(currentPlayer == reload.getPlayerA){
-      currentPlayer = reload.getPlayerB
-    }else{
-      currentPlayer = reload.getPlayerA
+      initAfterReload(newGameOldValues)
+      newGameOldValues.battleShipGameA.update(gameRound.battleShipGameA.gameState.length)
+      newGameOldValues.battleShipGameB.update(gameRound.battleShipGameB.gameState.length)
+      appendLog("Loaded the game")
+      if (currentPlayer == reload.getPlayerA) {
+        currentPlayer = reload.getPlayerB
+        //lockplayer A
+        if (numberPlayers == 1) {
+          enemyGridPane.setDisable(false)
+          btsave.setDisable(false)
+          //btload.setDisable(true)
+        }
+      } else {
+        currentPlayer = reload.getPlayerA
+        //lockplayer B
+        if (numberPlayers == 2) {
+          enemyGridPane.setDisable(false)
+          btsave.setDisable(false)
+          //btload.setDisable(true)
+        }
+      }
+      numShots = reload.getNumOfShots()
+      setLabels()
     }
-    numShots = reload.getNumOfShots()
-    setLabels()
-  }
 
 
 }
