@@ -94,5 +94,16 @@
 | 8
 | highscore - filelist new model/View, editmode finished
 
+| krassers16
+| 23.01.2018
+| -
+| 4
+| tried to lock players in gameMode (if not their turn), added licenseScreen, bugfixes
+
+| krassers16
+| 24.01.2018
+| -
+| 2
+| some minor bugfixes
 
 |===
