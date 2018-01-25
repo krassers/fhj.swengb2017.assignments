@@ -24,7 +24,7 @@ case class BattleFxCell(pos: BattlePos
       setFill(Color.BLUE)
     }
   }
-  
+
 
   def initEnemy(): Unit = setFill(Color.BLUE)
 
