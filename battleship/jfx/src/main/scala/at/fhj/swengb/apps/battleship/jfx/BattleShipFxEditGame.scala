@@ -244,7 +244,7 @@ class BattleShipFxEditGame extends Initializable {
     }
     try{
       // TODO: 10 not hard coded
-      if(str.toInt > 10){
+      if(str.toInt > 11 && str.toInt < 0){
         return false
       }
     }catch{
@@ -280,7 +280,7 @@ class BattleShipFxEditGame extends Initializable {
       } else {
         // Coords are valid (Syntax)
         // actShip.setStyle()
-        val pos = BattlePos(startPosX.getText().toInt, startPosY.getText().toInt)
+        val pos = BattlePos(startPosX.getText().toInt-1, startPosY.getText().toInt-1)
 
         if(actAlignment.getText.equals("Vertical")){
           dir = Vertical
@@ -299,7 +299,7 @@ class BattleShipFxEditGame extends Initializable {
         }
         else{
           //println("DEBUG: add new " + v.name + " at:" + pos.x + "/" + pos.y + " dir:" + actAlignment.getText + " len:" +len)
-          var newfield = playerGame.battleField.addAtRandomPosition(v)
+          var newfield = playerGame.battleField.addAtPosition(v)
 
           // check if there are changes
           if(newfield != playerGame.battleField){
@@ -340,7 +340,7 @@ class BattleShipFxEditGame extends Initializable {
             checksum += len
             actShip.setId(actShip.getId+"9")
             reloadGrid()
-            alert(AlertType.INFORMATION,"Success","Ship of type placed successfully!")
+            //alert(AlertType.INFORMATION,"Success","Ship of type placed successfully!")
 
           } else {
             //println("Ship cannot be placed there!")

@@ -23,7 +23,6 @@ class BattleShipFxGame extends Initializable {
   private var currentPlayer: String = _
   private var date: Date = _
   private var numShots: Int = _
-  private var gameState: String = _
 
   /*private var newBsGameA: BattleShipGame = _
   private var newBsGameB: BattleShipGame = _*/
@@ -39,13 +38,15 @@ class BattleShipFxGame extends Initializable {
 
   @FXML private var playerTurn: Text = _
 
-  @FXML private var state: TextArea = _
 
   @FXML
   def giveUp(): Unit = {
     //alert(AlertType.INFORMATION,"Information", "Actual game state will be saved! Going to Menu")
+    appendLog("G I V E up")
+    saveGameState()
+    alert(AlertType.INFORMATION, "Give up", "give up - other player has won!")
     gameRound.setNumberCurrentPlayers(gameRound.getNumberCurrentPlayers()-1)
-    gameRound.setWinner(gameRound.playerB+" (give up)")
+    //gameRound.setWinner(gameRound.playerB+" (give up)")
     BattleShipFxApp.setGameRound(gameRound)
     BattleShipFxApp.setFilename(fileName)
     BattleShipFxApp.saveGameState(fileName)
@@ -82,8 +83,6 @@ class BattleShipFxGame extends Initializable {
     *
     */
 
-  // TODO Implement GameState
-
   def init(game: GameRound): Unit = {
 
     setLabels()
@@ -96,9 +95,6 @@ class BattleShipFxGame extends Initializable {
     round.setWinner("")
     BattleShipFxApp.setGameRound(round)
     gameRound = BattleShipFxApp.getGameRound()
-    gameState = currentPlayer ++ " " ++ "turn"
-    gameRound.setGameState(gameState)
-    state.appendText(gameState)
 
     ownGridPane.setDisable(true)
    //println("init: -------- " ++ game.getNumberCurrentPlayers())
@@ -239,6 +235,7 @@ class BattleShipFxGame extends Initializable {
   def saveGameState(): Unit = {
     println("SAVE for " + currentPlayer + "at SCREEN: " + numberPlayers)
 
+
     if((currentPlayer == gameRound.playerA && numberPlayers == 1) || (currentPlayer == gameRound.playerB && numberPlayers == 2)){
       // our turn and save possible
       if (currentPlayer == gameRound.playerA) {
@@ -254,12 +251,18 @@ class BattleShipFxGame extends Initializable {
         btsave.setDisable(true)
         enemyGridPane.setDisable(true)
 
+      if(log.getParagraphs.toString.contains("G A M E")){
+        // means current player has one
+        alert(AlertType.INFORMATION,"Game over","Congratulation, you have won !!!!!!!")
+        println("SAVE meth: WINNER:" + currentPlayer)
+        gameRound.setWinner(currentPlayer)
+        //gameRound.setDate(date)
+        BattleShipFxApp.setGameRound(gameRound)
+        BattleShipFxApp.setFilename(fileName)
+        BattleShipFxApp.saveGameState(fileName)
+        BattleShipFxApp.display(BattleShipFxApp.loadWelcome,BattleShipFxApp.loadMain)
+      }
 
-      // Set text for gameState
-      gameState = currentPlayer ++ " " ++ "turn"
-      gameRound.setGameState(gameState)
-      state.clear()
-      state.appendText(gameState)
 
       gameRound.setDate(date)
       gameRound.incNumOfShots()
@@ -303,13 +306,32 @@ class BattleShipFxGame extends Initializable {
       newGameOldValues.battleShipGameA.update(gameRound.battleShipGameA.gameState.length)
       newGameOldValues.battleShipGameB.update(gameRound.battleShipGameB.gameState.length)
 
-      if (newGameOldValues.getGameState() != null) {
-        gameState = newGameOldValues.getGameState()
-        if (!state.getText.isEmpty)
-          state.clear()
-        state.appendText(gameState)
-      }
+      println(log.getParagraphs.toString)
+      if(log.getParagraphs.toString.contains("G A M E ")){
+        // means other player has one
+        alert(AlertType.INFORMATION,"Game over","Game is over other Player has won!")
+        if(reload.getCurrentPlayer == gameRound.playerA){
+          gameRound.setWinner(gameRound.playerB)
+          println("WInner" + gameRound.playerB)
+        }else {
+          gameRound.setWinner(gameRound.playerA)
+          println("WInner" + gameRound.playerA)
+        }
+        gameRound.setCurrentPlayer(reload.getCurrentPlayer)
+        BattleShipFxApp.setGameRound(gameRound)
+        BattleShipFxApp.setFilename(fileName)
+        BattleShipFxApp.saveGameState(fileName)
+        BattleShipFxApp.display(BattleShipFxApp.loadWelcome,BattleShipFxApp.loadMain)
 
+      } else if(log.getParagraphs.toString.contains("G I V E")){
+        alert(AlertType.INFORMATION,"Game over","Game is over you have won!")
+        gameRound.setWinner(reload.getCurrentPlayer)
+        gameRound.setCurrentPlayer(reload.getCurrentPlayer)
+        BattleShipFxApp.setGameRound(gameRound)
+        BattleShipFxApp.setFilename(fileName)
+        BattleShipFxApp.saveGameState(fileName)
+        BattleShipFxApp.display(BattleShipFxApp.loadWelcome,BattleShipFxApp.loadMain)
+      }
       appendLog("Loaded the game")
 
 
@@ -329,7 +351,7 @@ class BattleShipFxGame extends Initializable {
           //btload.setDisable(true)
       } else {
         //currentPlayer = newGameOldValues.playerA
-        gameRound.setCurrentPlayer(currentPlayer)
+        //gameRound.setCurrentPlayer(currentPlayer)
         //lockplayer B
         //if (numberPlayers == 2) {
           //enemyGridPane.setDisable(false)
