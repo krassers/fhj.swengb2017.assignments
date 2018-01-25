@@ -46,11 +46,23 @@
 | 2
 | initial version of NewGameController & EditModeController
 
+| grainerm15
+| 16.01.2018
+| -
+| 2
+| worked on edit screen
+
 | krassers16
 | 17.01.2018
 | -
 | 2.5
 | Both battlefields are displayed in the game mode
+
+| grainerm15
+| 17.01.2018
+| -
+| 2
+| worked on game screen
 
 | krassers16
 | 18.01.2018
@@ -87,6 +99,12 @@
 | -
 | 2
 | started highscore, small bugfixes
+
+| grainerm15
+| 22.01.2018
+| 2
+| 1
+| created splash screen, worked on credits screen
 
 | malichri16
 | 23.01.2018
