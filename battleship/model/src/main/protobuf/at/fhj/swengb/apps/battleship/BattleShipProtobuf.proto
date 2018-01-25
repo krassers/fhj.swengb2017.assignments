@@ -56,8 +56,7 @@ message Game {
     string playerA = 6;
     string playerB = 7;
     int32 numOfShots = 8;
-    string gameState = 9;
-    string currentPlayer = 10;
+    string currentPlayer = 9;
 }
 
 message Highscore {

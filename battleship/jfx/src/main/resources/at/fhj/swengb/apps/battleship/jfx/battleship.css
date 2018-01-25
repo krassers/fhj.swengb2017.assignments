@@ -45,7 +45,9 @@
             -fx-background-insets: 0,1,1.5;
             -fx-text-fill: black;
             -fx-font-size: 18px;
-
+}
+.durchstreichi{
+            -fx-strikethrough: true;
 }
 
 .button:hover{

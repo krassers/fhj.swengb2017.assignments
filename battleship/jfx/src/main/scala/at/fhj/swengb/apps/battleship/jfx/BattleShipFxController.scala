@@ -67,7 +67,7 @@ class BattleShipFxController extends Initializable {
     for (c <- game.getGameA.getCells) {
       battleGroundGridPane.add(c, c.pos.x, c.pos.y)
     }
-    game.getGameA.getCells().foreach(c => c.init)
+      game.getGameA.getCells().foreach(c => c.init)
   }
 
 
@@ -84,13 +84,13 @@ class BattleShipFxController extends Initializable {
   }
 
 
-  def saveGameState(): Unit = {
-    val datetime = Calendar.getInstance().getTime
+  def saveGameState(): Unit = {    val datetime = Calendar.getInstance().getTime
     val test = datetime.toString.filterNot(x => x.isWhitespace ||  x.equals(':'))
     filename = test
     convert(gameRound).writeTo(Files.newOutputStream(Paths.get("battleship/"+filename+".bin")))
 
     appendLog("Saved the game")
+
 
   }
 

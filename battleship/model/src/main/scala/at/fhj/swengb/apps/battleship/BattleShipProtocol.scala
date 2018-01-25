@@ -20,7 +20,6 @@ object BattleShipProtocol {
       .setNumOfShots(g.getNumOfShots())
       .setStartDate(new SimpleDateFormat("yyyy-MM-dd").format(g.getDate()))
       .setWinner(g.getWinner())
-      .setGameState(g.getGameState())
       .setCurrentPlayer(g.getCurrentPlayer()).build()
   }
 
@@ -70,7 +69,6 @@ object BattleShipProtocol {
     val date = sdf.parse(g.getStartDate)
     round.setDate(date)
     round.setNumOfShots(g.getNumOfShots)
-    round.setGameState(g.getGameState)
     round.setCurrentPlayer(g.getCurrentPlayer)
     round
   }

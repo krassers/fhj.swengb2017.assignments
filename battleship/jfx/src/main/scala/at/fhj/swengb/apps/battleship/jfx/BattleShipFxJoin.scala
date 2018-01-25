@@ -39,7 +39,6 @@ class BattleShipFxJoin extends Initializable {
    d.listFiles.filter(x => x.isFile && x.getName.contains(".bin")).toList
   else
    List[File]()
-
  }
 
 
@@ -53,7 +52,6 @@ class BattleShipFxJoin extends Initializable {
   val gameRound = BattleShipFxApp.loadGameState(filename)
   gameRound.setNumberCurrentPlayers(2)
   BattleShipFxApp.setGameRound(gameRound)
-
 
   println(recentGame)
  }
